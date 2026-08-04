@@ -11,13 +11,15 @@ const socials = [
 
 /**
  * Layout family: multi-column footer. Used once.
+ * bg-ink, not bg-ink-2: the footer is the one surface on the page that should
+ * read as unambiguously black, like systemsltd.com's footer.
  * Mobile (< 640px): every column stacks, the legal row wraps under the copyright.
  */
 export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative bg-ink-2">
+    <footer className="relative bg-ink">
       <div aria-hidden="true" className="h-px w-full rule-fade" />
 
       <Container className="py-16 sm:py-20">
