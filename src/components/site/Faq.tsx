@@ -53,7 +53,7 @@ export function Faq() {
                         aria-expanded={isOpen}
                         aria-controls={panelId}
                         onClick={() => setOpen(isOpen ? null : i)}
-                        className="flex w-full items-start justify-between gap-6 py-6 text-left text-onlight transition-colors duration-200 hover:text-azure-deep"
+                        className="flex w-full items-start justify-between gap-6 py-6 text-left text-onlight transition-colors duration-200 hover:text-violet-ink"
                       >
                         <span className="text-[1.0625rem] font-medium leading-snug text-current">
                           {faq.q}
