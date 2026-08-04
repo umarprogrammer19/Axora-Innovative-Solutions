@@ -1,26 +1,245 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ==========================================================================
+   AXORA DESIGN TOKENS
+   Theme: locked dark "midnight" enterprise. One theme for the whole page.
+   Depth comes from surface elevation + glass + light fields, never from
+   flipping a section to a light background.
+
+   Accent: ONE hue family (azure). Three ramp steps with defined jobs:
+     --color-azure-deep  filled buttons only (white text = 5.7:1)
+     --color-azure       borders, fills, glows, focus rings (no text on top)
+     --color-azure-soft  accent text on dark surfaces (7.9:1)
+
+   Radius rule (only two values, applied everywhere):
+     rounded-panel   16px  panels, cards, media frames
+     rounded-control 10px  buttons, inputs, chips, selects
+   ========================================================================== */
+
+@theme {
+  /* surfaces, darkest to lightest */
+  --color-ink: #05070f;
+  --color-ink-2: #080d1a;
+  --color-panel: #0b1120;
+  --color-panel-2: #101a2e;
+
+  /* hairlines */
+  --color-line: #18223a;
+  --color-line-2: #24304f;
+
+  /* text */
+  --color-fg: #eef2fb;
+  --color-fg-2: #a9b4cc;
+  --color-fg-3: #7986a3;
+
+  /* accent ramp (single hue) */
+  --color-azure: #3d6ef7;
+  --color-azure-deep: #2a5be0;
+  --color-azure-soft: #7da6ff;
+
+  /* semantic state only, never decorative */
+  --color-alert: #ff9aa8;
+  --color-ok: #7fe0b0;
+
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --radius-panel: 16px;
+  --radius-control: 10px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* --------------------------------------------------------------------------
+   Base
+   -------------------------------------------------------------------------- */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    color-scheme: dark;
+    background-color: var(--color-ink);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv11", "ss01";
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Display type: tight, confident, never screaming. */
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.028em;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background-color: var(--color-azure-deep);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-azure);
+    outline-offset: 2px;
+  }
+
+  /* Reserve space so late-loading media cannot shift layout. */
+  img,
+  video {
+    display: block;
+    max-width: 100%;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* --------------------------------------------------------------------------
+   Materials
+   -------------------------------------------------------------------------- */
+
+@utility glass {
+  /* Web frosted-glass approximation. Not Apple Liquid Glass (Apple ships that
+     only on Apple platforms). Layered border + inner highlight sells the edge. */
+  background-color: color-mix(in oklab, var(--color-panel) 55%, transparent);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgb(255 255 255 / 0.09);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.07),
+    0 24px 70px -30px rgb(0 0 0 / 0.85);
+}
+
+@utility glass-strong {
+  background-color: color-mix(in oklab, var(--color-panel) 78%, transparent);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  border: 1px solid rgb(255 255 255 / 0.11);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.09),
+    0 30px 90px -40px rgb(0 0 0 / 0.9);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .glass,
+  .glass-strong {
+    background-color: var(--color-panel);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+/* Hairline that fades at both ends. Used to separate bands without a hard rule. */
+@utility rule-fade {
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-line-2) 18%,
+    var(--color-line-2) 82%,
+    transparent
+  );
+}
+
+/* Blueprint field: organises the hero and the process rail, low contrast. */
+@utility field-grid {
+  background-image:
+    linear-gradient(to right, rgb(125 166 255 / 0.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(125 166 255 / 0.055) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+/* Ambient light behind the hero and the inquiry panel. */
+@utility light-field {
+  background-image:
+    radial-gradient(
+      70% 55% at 18% 4%,
+      color-mix(in oklab, var(--color-azure) 26%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      55% 45% at 92% 12%,
+      color-mix(in oklab, #6d5cf0 20%, transparent),
+      transparent 68%
+    ),
+    radial-gradient(
+      80% 60% at 50% 100%,
+      color-mix(in oklab, var(--color-ink) 92%, transparent),
+      transparent 60%
+    );
+}
+
+/* --------------------------------------------------------------------------
+   Fixed grain. Pointer-events none, fixed layer only, so it never repaints
+   during scroll.
+   -------------------------------------------------------------------------- */
+
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0.032;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* --------------------------------------------------------------------------
+   Ticker (the single marquee on this page)
+   -------------------------------------------------------------------------- */
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker 42s linear infinite;
+}
+
+.ticker-mask {
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 6%,
+    #000 94%,
+    transparent
+  );
+}
+
+.ticker-viewport:hover .ticker-track,
+.ticker-viewport:focus-within .ticker-track {
+  animation-play-state: paused;
+}
+
+@keyframes ticker {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Placeholder asset frame. Structured slot, easy to swap for a real asset.
+   -------------------------------------------------------------------------- */
+
+.asset-slot {
+  background-color: var(--color-ink-2);
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgb(125 166 255 / 0.05) 0 1px,
+    transparent 1px 11px
+  );
+  border: 1px dashed var(--color-line-2);
+}
+
+/* --------------------------------------------------------------------------
+   Reduced motion: every looping or scroll-driven effect collapses.
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track {
+    animation: none;
+    transform: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+  }
 }
