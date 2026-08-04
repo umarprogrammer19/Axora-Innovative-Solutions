@@ -23,7 +23,7 @@ export function Wordmark({ className = "" }: { className?: string }) {
         alt=""
         width={293}
         height={242}
-        className="h-7 w-auto shrink-0"
+        className="h-[30px] w-auto shrink-0"
         priority
       />
       <span className="inline-block">
