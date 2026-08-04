@@ -25,7 +25,7 @@ export function Projects() {
         <Reveal className="max-w-[46ch]">
           <h2 className="text-[clamp(1.75rem,3.4vw,2.75rem)] font-semibold leading-[1.12] text-onlight">
             Recent{" "}
-            <span className="bg-gradient-to-r from-azure to-violet-deep bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-violet-deep to-magenta-deep bg-clip-text text-transparent">
               work
             </span>
           </h2>
@@ -59,7 +59,7 @@ export function Projects() {
                   <div key={m.label}>
                     <dt className="sr-only">{m.label}</dt>
                     <dd>
-                      <span className="block font-mono text-[1.75rem] leading-none tracking-tight text-azure-deep">
+                      <span className="block font-mono text-[1.75rem] leading-none tracking-tight text-violet-ink">
                         {m.value}
                       </span>
                       <span className="mt-2.5 block text-[0.8125rem] leading-snug text-onlight-3">
@@ -95,7 +95,7 @@ export function Projects() {
                     <div key={m.label}>
                       <dt className="sr-only">{m.label}</dt>
                       <dd>
-                        <span className="block font-mono text-[1.25rem] leading-none tracking-tight text-azure-deep">
+                        <span className="block font-mono text-[1.25rem] leading-none tracking-tight text-violet-ink">
                           {m.value}
                         </span>
                         <span className="mt-2 block text-[0.8125rem] text-onlight-3">
