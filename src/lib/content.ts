@@ -84,13 +84,13 @@ export const services = [
   {
     id: "software",
     title: "Custom internal software",
-    body: "Portals, dashboards, and operational tools built around how your team actually works instead of how a template assumes it does.",
+    body: "Portals, dashboards, and operational tools built around how your team actually works.",
     points: ["Internal portals", "Operational dashboards", "Role-based access"],
   },
   {
     id: "operate",
     title: "Run and improve",
-    body: "We monitor what we ship, fix what breaks, and keep tuning the system after launch instead of handing you a repository and leaving.",
+    body: "We monitor what we ship, fix what breaks, and keep tuning after launch.",
     points: ["Monitoring and alerting", "Issue response", "Quarterly tuning"],
   },
 ] as const;
