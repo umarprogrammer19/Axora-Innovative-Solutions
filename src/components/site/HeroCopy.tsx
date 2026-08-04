@@ -39,7 +39,7 @@ export function HeroCopy() {
         className="max-w-[15ch] text-[clamp(2.5rem,5.6vw,4.25rem)] font-semibold leading-[1.04] text-fg"
       >
         Whatever Slows You Down, We{" "}
-        <span className="bg-gradient-to-r from-violet via-violet-deep to-magenta bg-clip-text text-transparent">
+        <span className="bg-gradient-to-r from-azure to-azure-soft bg-clip-text text-transparent">
           Automate
         </span>{" "}
         It
@@ -67,7 +67,7 @@ export function HeroCopy() {
               key={badge}
               className="inline-flex items-center gap-2 text-[0.8125rem] text-fg-2"
             >
-              <Icon size={15} className="shrink-0 text-violet-soft" aria-hidden="true" />
+              <Icon size={15} className="shrink-0 text-azure-soft" aria-hidden="true" />
               {badge}
             </li>
           );
