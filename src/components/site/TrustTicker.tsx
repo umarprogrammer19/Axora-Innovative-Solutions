@@ -24,7 +24,7 @@ export function TrustTicker() {
               aria-hidden={i >= tickerItems.length}
               className="flex shrink-0 items-center gap-6 pr-6 text-sm text-fg-2 sm:gap-8 sm:pr-8"
             >
-              <span className="text-violet-soft/60">&middot;</span>
+              <span className="text-azure-soft/60">&middot;</span>
               <span className="whitespace-nowrap">{item}</span>
             </span>
           ))}
