@@ -55,13 +55,13 @@ export function Process() {
             aria-hidden="true"
             data-reveal=""
             style={{ scaleY: progress }}
-            className="absolute top-2 bottom-2 left-[7px] w-px origin-top bg-azure motion-reduce:[transform:none]! lg:hidden"
+            className="absolute top-2 bottom-2 left-[7px] w-px origin-top bg-violet motion-reduce:[transform:none]! lg:hidden"
           />
           <motion.div
             aria-hidden="true"
             data-reveal=""
             style={{ scaleX: progress }}
-            className="absolute inset-x-0 top-[7px] hidden h-px origin-left bg-azure motion-reduce:[transform:none]! lg:block"
+            className="absolute inset-x-0 top-[7px] hidden h-px origin-left bg-violet motion-reduce:[transform:none]! lg:block"
           />
 
           <ol className="relative grid grid-cols-1 gap-11 lg:grid-cols-4 lg:gap-8">
@@ -69,12 +69,12 @@ export function Process() {
               <Reveal as="li" key={step.id} delay={i * 0.07} className="relative pl-9 lg:pt-10 lg:pl-0">
                 <span
                   aria-hidden="true"
-                  className="absolute top-px left-0 grid size-[15px] place-items-center rounded-full border border-azure bg-ink lg:top-0"
+                  className="absolute top-px left-0 grid size-[15px] place-items-center rounded-full border border-violet bg-ink lg:top-0"
                 >
-                  <span className="size-[5px] rounded-full bg-azure" />
+                  <span className="size-[5px] rounded-full bg-violet" />
                 </span>
 
-                <p className="font-mono text-[0.6875rem] tracking-[0.14em] text-azure-soft">
+                <p className="font-mono text-[0.6875rem] tracking-[0.14em] text-violet-soft">
                   {step.meta}
                 </p>
                 <h3 className="mt-3 text-[1.0625rem] font-semibold tracking-[-0.01em] text-fg">
