@@ -24,7 +24,10 @@ export function Projects() {
       <Container>
         <Reveal className="max-w-[46ch]">
           <h2 className="text-[clamp(1.75rem,3.4vw,2.75rem)] font-semibold leading-[1.12] text-onlight">
-            Recent work
+            Recent{" "}
+            <span className="bg-gradient-to-r from-azure to-violet-deep bg-clip-text text-transparent">
+              work
+            </span>
           </h2>
           <p className="mt-5 max-w-[58ch] text-[1.0625rem] leading-relaxed text-onlight-2">
             Three systems now running every day, each replacing a process someone
