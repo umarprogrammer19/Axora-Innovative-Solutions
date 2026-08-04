@@ -62,7 +62,10 @@ export function Services() {
             What we build
           </p>
           <h2 className="mt-4 text-[clamp(1.75rem,3.4vw,2.75rem)] font-semibold leading-[1.12] text-onlight">
-            Built for the operation you actually run.
+            Built for the operation you actually{" "}
+            <span className="bg-gradient-to-r from-azure to-violet-deep bg-clip-text text-transparent">
+              run.
+            </span>
           </h2>
         </Reveal>
 
