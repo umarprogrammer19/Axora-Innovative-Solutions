@@ -165,6 +165,58 @@ export const projects = [
   },
 ] as const;
 
+/**
+ * ILLUSTRATIVE testimonials, tied to the same three placeholder clients as
+ * `projects` above. Names, roles, and quotes are placeholders for layout and
+ * must be replaced with signed-off quotes before launch.
+ */
+export const testimonials = [
+  {
+    id: "marhaba",
+    quote:
+      "Dispatch used to eat a full shift. Now the team clears it before lunch and spends the rest of the day on the freight, not the paperwork.",
+    name: "Farhan Qureshi",
+    role: "Operations Manager",
+    company: "Marhaba Freight",
+  },
+  {
+    id: "nadir",
+    quote:
+      "Our front desk does one job now instead of three. Claims go out clean the first time, and that alone paid for the project.",
+    name: "Ayesha Malik",
+    role: "Practice Manager",
+    company: "Nadir Health Group",
+  },
+  {
+    id: "ravi",
+    quote:
+      "We used to find stock mismatches days later. Now the system flags them the same night, before they turn into a bigger problem.",
+    name: "Bilal Ahmed",
+    role: "Head of Retail Operations",
+    company: "Ravi Retail Group",
+  },
+] as const;
+
+/** Real tools. Slugs map to simple-icons exports (siPython, siAnthropic, ...). */
+export const techStack = [
+  { name: "Python", slug: "python" },
+  { name: "Anthropic", slug: "anthropic" },
+  { name: "Google Gemini", slug: "googlegemini" },
+  { name: "Hugging Face", slug: "huggingface" },
+  { name: "LangChain", slug: "langchain" },
+  { name: "TensorFlow", slug: "tensorflow" },
+  { name: "PyTorch", slug: "pytorch" },
+  { name: "n8n", slug: "n8n" },
+  { name: "Selenium", slug: "selenium" },
+  { name: "Docker", slug: "docker" },
+  { name: "Kubernetes", slug: "kubernetes" },
+  { name: "PostgreSQL", slug: "postgresql" },
+  { name: "Redis", slug: "redis" },
+  { name: "FastAPI", slug: "fastapi" },
+  { name: "TypeScript", slug: "typescript" },
+  { name: "GitHub Actions", slug: "githubactions" },
+] as const;
+
 export const why = {
   heading: "Why operations teams pick Axora",
   reasons: [
