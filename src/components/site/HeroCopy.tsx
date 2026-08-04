@@ -41,7 +41,7 @@ export function HeroCopy() {
         className="max-w-[15ch] text-[clamp(2.125rem,4.6vw,3.5rem)] font-semibold leading-[1.06] text-fg"
       >
         Whatever Slows You Down, We{" "}
-        <span className="bg-gradient-to-r from-azure-soft to-violet-soft bg-clip-text text-transparent">
+        <span className="bg-gradient-to-r from-azure via-violet to-violet-deep bg-clip-text text-transparent">
           Automate
         </span>{" "}
         It
