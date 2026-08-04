@@ -10,9 +10,14 @@ import { motion, useReducedMotion, useScroll, useTransform } from "motion/react"
  * the file downloads and stays intact if the asset is missing entirely. Drop the
  * loop at /public/media/hero-loop.mp4 (see public/media/README.md for specs).
  *
+ * The copy in HeroCopy has no panel behind it anymore, it sits directly on this
+ * media, so the left-side scrim below is the ONLY thing keeping the headline
+ * readable. Loosen it only after checking contrast against a bright frame of
+ * the actual video, not just the fallback light field.
+ *
  * Motion: a slow push on the media as the hero leaves the viewport. Motivation is
- * depth, the copy layer stays still while the media drifts, which signals that the
- * glass panel is in front of the scene rather than painted on it.
+ * depth, the copy stays still while the media drifts, so the scene reads as
+ * happening behind the text rather than painted on it.
  *
  * Reduced motion: the whole video layer is removed by the CSS `motion-reduce`
  * variant, which also makes the parallax transform moot since it only ever applies
@@ -68,9 +73,10 @@ export function HeroMedia() {
       <div className="absolute inset-0 field-grid opacity-80" />
 
       {/* Scrim. Heavy on the left where the copy sits, open on the right so the
-          light core stays visible. */}
-      <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/78 to-ink/5" />
-      <div className="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-ink/25" />
+          light core stays visible. Carries full legibility on its own now that
+          the copy has no panel backing it. */}
+      <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/88 to-ink/10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/10 to-ink/35" />
     </div>
   );
 }
