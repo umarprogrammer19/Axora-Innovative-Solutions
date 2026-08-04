@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { MotionProvider } from "@/components/ui/MotionProvider";
 
 const geist = Geist({
   variable: "--font-geist",
@@ -39,7 +40,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geist.variable} ${geistMono.variable} scroll-smooth antialiased`}
     >
       <body className="min-h-dvh bg-ink text-fg">
-        {children}
+        {/*
+          Entry and scroll animations render their hidden state as an inline style
+          during SSR. Without this, a visitor with JavaScript disabled would get a
+          page of invisible sections. The !important beats the inline style.
+        */}
+        <noscript>
+          <style>{`[data-reveal]{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
+
+        <MotionProvider>{children}</MotionProvider>
+
         {/* Fixed grain layer. Never inside a scrolling container. */}
         <div className="grain" aria-hidden="true" />
       </body>
