@@ -53,7 +53,7 @@ export function Problem() {
 
             {/* Outcome side, carries the accent. */}
             <div className="pt-10 md:pt-0 md:pl-10 lg:pl-14">
-              <h3 className="text-sm font-medium text-azure-deep">
+              <h3 className="text-sm font-medium text-violet-ink">
                 {problem.after.title}
               </h3>
               <ul className="mt-6 space-y-5">
@@ -61,7 +61,7 @@ export function Problem() {
                   <li key={item} className="flex gap-3.5">
                     <span
                       aria-hidden="true"
-                      className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-[6px] bg-azure/12 text-azure-deep ring-1 ring-azure/25"
+                      className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-[6px] bg-violet/12 text-violet-ink ring-1 ring-violet/25"
                     >
                       <Check size={11} weight="bold" />
                     </span>
