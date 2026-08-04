@@ -24,13 +24,20 @@ const statIcons: [Icon, string][] = [
   [ShieldCheck, "bg-magenta-deep"],
 ];
 
+const headingWords = why.heading.split(" ");
+const headingLead = headingWords.slice(0, -1).join(" ");
+const headingAccent = headingWords[headingWords.length - 1];
+
 export function WhyAxora() {
   return (
     <section id="why" className="relative bg-ink py-24 sm:py-28 lg:py-32">
       <Container>
         <Reveal className="max-w-[46ch]">
           <h2 className="text-[clamp(1.75rem,3.4vw,2.75rem)] font-semibold leading-[1.12] text-fg">
-            {why.heading}
+            {headingLead}{" "}
+            <span className="bg-gradient-to-r from-azure via-violet to-violet-deep bg-clip-text text-transparent">
+              {headingAccent}
+            </span>
           </h2>
         </Reveal>
 
