@@ -13,13 +13,13 @@ import { Footer } from "@/components/site/Footer";
 /**
  * Home page.
  *
- * The page opens and closes dark (hero, ticker, inquiry, footer) and alternates
- * paper (light) bands through the middle, matching the Axora brand reference:
- * dark, dark, paper, paper, dark, paper, dark, paper, dark, dark. See the theme
- * doc comment in globals.css for the token scheme behind the switch.
+ * Mostly black (systemsltd.com-style), with paper (light) bands used sparingly
+ * for contrast rather than in strict alternation: dark, dark, paper, dark,
+ * dark, paper, dark, paper, dark, dark. See the theme doc comment in
+ * globals.css for the token scheme behind the switch.
  *
  * Layout families, one use each:
- *   Hero        full-bleed media with a glass panel
+ *   Hero        full-bleed media, copy sits directly on it, no panel
  *   Ticker      hairline band with a horizontal marquee (the only marquee)
  *   Problem     two-column comparison diptych
  *   Services    asymmetric bento
