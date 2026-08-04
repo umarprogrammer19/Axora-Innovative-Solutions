@@ -12,6 +12,10 @@ const badgeIcons = [ShieldCheck, FileText, LockKey];
  * Hero copy layer, four text elements and no more: headline, subtext, CTA pair,
  * trust badges. No eyebrow, no scroll cue, no decoration strip.
  *
+ * No panel. The copy sits directly on the video, the way systemsltd.com's hero
+ * does, so the scrim on HeroMedia is the only thing carrying legibility here -
+ * see the comment there before loosening it.
+ *
  * Motion: one staggered entry on load. Motivation is hierarchy, the eye is walked
  * from the claim to the action in the order we want it read. Reduced motion is
  * handled globally by MotionProvider, so this stays unbranched and hydrates cleanly.
@@ -29,19 +33,13 @@ export function HeroCopy() {
   });
 
   return (
-    <div className="glass relative overflow-hidden rounded-panel p-7 sm:p-10 lg:p-12">
-      {/* Lit top edge. Sells the panel as a physical sheet over the video. */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-azure/70 to-transparent"
-      />
-
+    <div className="relative">
       <motion.h1
         {...step(0)}
-        className="max-w-[15ch] text-[clamp(2.125rem,4.6vw,3.5rem)] font-semibold leading-[1.06] text-fg"
+        className="max-w-[15ch] text-[clamp(2.5rem,5.6vw,4.25rem)] font-semibold leading-[1.04] text-fg"
       >
         Whatever Slows You Down, We{" "}
-        <span className="bg-gradient-to-r from-azure via-violet to-violet-deep bg-clip-text text-transparent">
+        <span className="bg-gradient-to-r from-violet via-violet-deep to-magenta bg-clip-text text-transparent">
           Automate
         </span>{" "}
         It
@@ -49,7 +47,7 @@ export function HeroCopy() {
 
       <motion.p
         {...step(1)}
-        className="mt-6 max-w-[52ch] text-[1.0625rem] leading-relaxed text-fg-2"
+        className="mt-6 max-w-[48ch] text-[1.0625rem] leading-relaxed text-fg-2"
       >
         {hero.sub}
       </motion.p>
@@ -61,18 +59,15 @@ export function HeroCopy() {
         </Button>
       </motion.div>
 
-      <motion.ul
-        {...step(3)}
-        className="mt-9 flex flex-wrap gap-2 border-t border-white/[0.07] pt-7"
-      >
+      <motion.ul {...step(3)} className="mt-10 flex flex-wrap gap-x-6 gap-y-3">
         {hero.badges.map((badge, i) => {
           const Icon = badgeIcons[i];
           return (
             <li
               key={badge}
-              className="inline-flex items-center gap-2 rounded-control border border-line-2/70 bg-white/[0.03] px-3 py-2 text-[0.8125rem] text-fg-2"
+              className="inline-flex items-center gap-2 text-[0.8125rem] text-fg-2"
             >
-              <Icon size={15} className="shrink-0 text-azure-soft" aria-hidden="true" />
+              <Icon size={15} className="shrink-0 text-violet-soft" aria-hidden="true" />
               {badge}
             </li>
           );
