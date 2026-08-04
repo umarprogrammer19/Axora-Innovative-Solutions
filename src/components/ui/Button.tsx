@@ -14,11 +14,13 @@ const base =
   "duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:translate-y-px disabled:pointer-events-none disabled:opacity-55";
 
 const variants: Record<Variant, string> = {
+  // Tinted, tight shadow plus a 1px inner highlight. Deliberately not an outer
+  // glow: a coloured halo around a button is the clearest tell of a generated page.
   primary:
-    "bg-azure-deep px-5 py-3.5 text-white shadow-[0_10px_30px_-12px_rgb(42_91_224/0.9)] " +
-    "hover:bg-azure hover:shadow-[0_14px_38px_-12px_rgb(61_110_247/0.95)]",
-  ghost:
-    "glass px-5 py-3.5 text-fg hover:border-white/20 hover:bg-white/[0.07]",
+    "bg-azure-deep px-5 py-3.5 text-white " +
+    "shadow-[inset_0_1px_0_rgb(255_255_255/0.16),0_6px_16px_-10px_rgb(5_7_15/0.9)] " +
+    "hover:bg-azure",
+  ghost: "glass px-5 py-3.5 text-fg hover:border-white/20 hover:bg-white/[0.07]",
 };
 
 export function Button({
