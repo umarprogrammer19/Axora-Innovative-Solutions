@@ -19,8 +19,8 @@ export function AssetSlot({
       role="img"
       aria-label={`Placeholder: ${label}`}
     >
-      <div className="pointer-events-none absolute inset-2.5 rounded-[8px] border border-line" />
-      <p className="relative max-w-[24ch] px-6 text-center font-mono text-[0.6875rem] leading-relaxed text-fg-3">
+      <div className="pointer-events-none absolute inset-2.5 rounded-[8px] border border-paper-line" />
+      <p className="relative max-w-[24ch] px-6 text-center font-mono text-[0.6875rem] leading-relaxed text-onlight-3">
         {label}
       </p>
     </div>
