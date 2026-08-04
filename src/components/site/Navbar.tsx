@@ -43,7 +43,7 @@ export function Navbar() {
       <div
         className={`border-b transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           condensed || open
-            ? "glass-strong border-white/10"
+            ? "glass-nav border-white/10"
             : "border-transparent bg-transparent"
         }`}
       >
@@ -63,7 +63,7 @@ export function Navbar() {
                   <li key={item.href}>
                     <a
                       href={item.href}
-                      className="relative block rounded-control px-3.5 py-2 text-sm text-fg-2 transition-colors duration-200 hover:text-fg"
+                      className="relative block rounded-control px-3.5 py-2 text-sm text-fg transition-colors duration-200 hover:text-azure-soft"
                     >
                       {item.label}
                     </a>
@@ -108,7 +108,7 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: -8 }}
             transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
-            className="glass-strong border-b border-white/10 lg:hidden"
+            className="glass-nav border-b border-white/10 lg:hidden"
           >
             <Container>
               <ul className="flex flex-col py-3">
@@ -117,7 +117,7 @@ export function Navbar() {
                     <a
                       href={item.href}
                       onClick={() => setOpen(false)}
-                      className="block border-b border-line py-3.5 text-[0.9375rem] text-fg-2 transition-colors hover:text-fg"
+                      className="block border-b border-line py-3.5 text-[0.9375rem] text-fg transition-colors hover:text-azure-soft"
                     >
                       {item.label}
                     </a>
