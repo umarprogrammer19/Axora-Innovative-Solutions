@@ -13,8 +13,8 @@ const icons: Record<string, Icon> = {
   operate: Gauge,
 };
 
-/** Rotates through the page's decorative ramp, same three hues WhyAxora uses. */
-const chipTones = ["bg-violet", "bg-violet-deep", "bg-magenta-deep", "bg-violet", "bg-violet-deep"];
+/** Rotates through brand blue, deep blue, and a neutral dark chip, same as WhyAxora. */
+const chipTones = ["bg-azure", "bg-azure-deep", "bg-line-2", "bg-azure", "bg-azure-deep"];
 
 const card =
   "group relative flex flex-col overflow-hidden rounded-panel border border-line bg-panel " +
@@ -37,7 +37,7 @@ function Points({ points }: { points: readonly string[] }) {
     <ul className="mt-5 space-y-2.5">
       {points.map((point) => (
         <li key={point} className="flex items-center gap-2.5 text-[0.875rem] text-fg-2">
-          <span aria-hidden="true" className="h-px w-4 shrink-0 bg-violet-deep/70" />
+          <span aria-hidden="true" className="h-px w-4 shrink-0 bg-azure-deep/70" />
           {point}
         </li>
       ))}
@@ -51,11 +51,11 @@ function Points({ points }: { points: readonly string[] }) {
  *
  * Black band, matching the rest of the page (bg-panel over bg-ink, one elevation
  * step up, same surfaces the stat chips in WhyAxora use). Every icon sits in a
- * filled, rotating violet/magenta circular chip rather than a bordered square, so
- * this reads as the same design language as the stat band instead of a leftover
- * light-mode holdover.
+ * filled, rotating circular chip (brand blue, deep blue, neutral dark) rather
+ * than a bordered square, so this reads as the same design language as the
+ * stat band instead of a leftover light-mode holdover.
  *
- * Background diversity: cell 1 carries a violet radial glow, cell 3 the blueprint
+ * Background diversity: cell 1 carries a blue radial glow, cell 3 the blueprint
  * pattern. Cells 2, 4, 5 stay quiet so the grid still has calm space in it.
  *
  * Mobile (< 768px): single column. At md the first cell spans both columns and the
@@ -73,7 +73,7 @@ export function Services() {
           </p>
           <h2 className="mt-4 text-[clamp(1.75rem,3.4vw,2.75rem)] font-semibold leading-[1.12] text-fg">
             Built for the operation you actually{" "}
-            <span className="bg-gradient-to-r from-violet-deep to-magenta-deep bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-azure to-azure-soft bg-clip-text text-transparent">
               run.
             </span>
           </h2>
@@ -87,7 +87,7 @@ export function Services() {
           <article className={`${card} md:col-span-2 lg:col-span-7`}>
             <div
               aria-hidden="true"
-              className="absolute inset-0 bg-[radial-gradient(120%_100%_at_100%_0%,rgb(120_98_190/0.22),transparent_62%)]"
+              className="absolute inset-0 bg-[radial-gradient(120%_100%_at_100%_0%,rgb(2_96_253/0.20),transparent_62%)]"
             />
             <div className="relative p-7 sm:p-9">
               <IconChip id={feature.id} tone={chipTones[0]} />
@@ -141,7 +141,7 @@ export function Services() {
           <article className={`${card} lg:col-span-4`}>
             <div
               aria-hidden="true"
-              className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-magenta/50 to-transparent"
+              className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-azure-deep/50 to-transparent"
             />
             <div className="relative p-7 sm:p-8">
               <IconChip id={fifth.id} tone={chipTones[4]} size="md" />
