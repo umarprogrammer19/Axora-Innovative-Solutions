@@ -10,18 +10,17 @@ import { why } from "@/lib/content";
  * Used once. Grouping is done with hairlines and space, which is why this section
  * reads quieter than the bento above it.
  *
- * The three stat chips rotate through the violet-to-magenta decorative ramp,
- * matching the reference's colored stat icons without touching azure, which
- * this page reserves for the button and focus states only.
+ * The three stat chips rotate through brand blue, deep blue, and a neutral
+ * dark chip, the only hues the logo actually has.
  *
  * Metrics are illustrative placeholders. See content.ts.
  *
  * Mobile (< 640px): stats stack, reasons collapse to one column.
  */
 const statIcons: [Icon, string][] = [
-  [Timer, "bg-violet"],
-  [ChartLineUp, "bg-violet-deep"],
-  [ShieldCheck, "bg-magenta-deep"],
+  [Timer, "bg-azure"],
+  [ChartLineUp, "bg-azure-deep"],
+  [ShieldCheck, "bg-line-2"],
 ];
 
 const headingWords = why.heading.split(" ");
@@ -35,7 +34,7 @@ export function WhyAxora() {
         <Reveal className="max-w-[46ch]">
           <h2 className="text-[clamp(1.75rem,3.4vw,2.75rem)] font-semibold leading-[1.12] text-fg">
             {headingLead}{" "}
-            <span className="bg-gradient-to-r from-violet via-violet-deep to-magenta bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-azure to-azure-soft bg-clip-text text-transparent">
               {headingAccent}
             </span>
           </h2>
