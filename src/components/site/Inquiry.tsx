@@ -93,7 +93,7 @@ export function Inquiry() {
     <section id="inquiry" className="relative overflow-hidden bg-ink py-24 sm:py-28 lg:py-32">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-[radial-gradient(60%_100%_at_20%_0%,rgb(120_98_190/0.16),transparent_70%)]"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-[radial-gradient(60%_100%_at_20%_0%,rgb(2_96_253/0.16),transparent_70%)]"
       />
 
       <Container>
@@ -124,7 +124,7 @@ export function Inquiry() {
                     {state.message} If it is urgent, email us at{" "}
                     <a
                       href={`mailto:${contact.email}`}
-                      className="text-violet-soft underline decoration-violet/40 underline-offset-4 hover:decoration-violet"
+                      className="text-azure-soft underline decoration-azure/40 underline-offset-4 hover:decoration-azure"
                     >
                       {contact.email}
                     </a>
@@ -277,7 +277,7 @@ export function Inquiry() {
               <ol className="mt-6 space-y-6">
                 {inquiry.next.map((item, i) => (
                   <li key={item.title} className="flex gap-4">
-                    <span className="mt-0.5 font-mono text-[0.75rem] text-violet-soft">
+                    <span className="mt-0.5 font-mono text-[0.75rem] text-azure-soft">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span>
