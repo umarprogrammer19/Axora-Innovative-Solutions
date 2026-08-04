@@ -28,7 +28,7 @@ export function Footer() {
             <a href="#top" className="inline-block" aria-label="Axora Innovative Solutions, home">
               <Wordmark />
             </a>
-            <p className="mt-6 max-w-[38ch] text-[0.9375rem] leading-relaxed text-fg-2">
+            <p className="mt-6 max-w-[38ch] text-[0.9375rem] leading-relaxed text-fg">
               We design, build, and run the automation that takes manual work out of
               your operation.
             </p>
@@ -39,7 +39,7 @@ export function Footer() {
                   <a
                     href={href}
                     aria-label={label}
-                    className="grid size-9 place-items-center rounded-control border border-line text-fg-2 transition-colors duration-200 hover:border-line-2 hover:text-fg"
+                    className="grid size-9 place-items-center rounded-control border border-line text-fg transition-colors duration-200 hover:border-line-2 hover:text-azure-soft"
                   >
                     <Icon size={16} aria-hidden="true" />
                   </a>
@@ -56,7 +56,7 @@ export function Footer() {
                   <li key={link.label}>
                     <a
                       href={link.href}
-                      className="text-[0.875rem] text-fg-2 transition-colors duration-200 hover:text-fg"
+                      className="text-[0.875rem] text-fg transition-colors duration-200 hover:text-azure-soft"
                     >
                       {link.label}
                     </a>
@@ -72,23 +72,23 @@ export function Footer() {
               <li>
                 <a
                   href={`mailto:${contact.email}`}
-                  className="flex items-start gap-3 text-[0.875rem] text-fg-2 transition-colors duration-200 hover:text-fg"
+                  className="flex items-start gap-3 text-[0.875rem] text-fg transition-colors duration-200 hover:text-azure-soft"
                 >
-                  <EnvelopeSimple size={15} className="mt-0.5 shrink-0 text-fg-3" aria-hidden="true" />
+                  <EnvelopeSimple size={15} className="mt-0.5 shrink-0 text-fg-2" aria-hidden="true" />
                   {contact.email}
                 </a>
               </li>
               <li>
                 <a
                   href={`tel:${contact.phone.replace(/\s/g, "")}`}
-                  className="flex items-start gap-3 text-[0.875rem] text-fg-2 transition-colors duration-200 hover:text-fg"
+                  className="flex items-start gap-3 text-[0.875rem] text-fg transition-colors duration-200 hover:text-azure-soft"
                 >
-                  <Phone size={15} className="mt-0.5 shrink-0 text-fg-3" aria-hidden="true" />
+                  <Phone size={15} className="mt-0.5 shrink-0 text-fg-2" aria-hidden="true" />
                   {contact.phone}
                 </a>
               </li>
-              <li className="flex items-start gap-3 text-[0.875rem] text-fg-2">
-                <MapPin size={15} className="mt-0.5 shrink-0 text-fg-3" aria-hidden="true" />
+              <li className="flex items-start gap-3 text-[0.875rem] text-fg">
+                <MapPin size={15} className="mt-0.5 shrink-0 text-fg-2" aria-hidden="true" />
                 {contact.location}
               </li>
             </ul>
@@ -96,7 +96,7 @@ export function Footer() {
         </div>
 
         <div className="mt-16 flex flex-col gap-4 border-t border-line pt-7 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-[0.8125rem] text-fg-3">
+          <p className="text-[0.8125rem] text-fg-2">
             &copy; {year} Axora Innovative Solutions. All rights reserved.
           </p>
           <ul className="flex gap-6">
@@ -104,7 +104,7 @@ export function Footer() {
               <li key={item.label}>
                 <a
                   href={item.href}
-                  className="text-[0.8125rem] text-fg-3 transition-colors duration-200 hover:text-fg-2"
+                  className="text-[0.8125rem] text-fg-2 transition-colors duration-200 hover:text-fg"
                 >
                   {item.label}
                 </a>
