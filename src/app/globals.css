@@ -2,14 +2,23 @@
 
 /* ==========================================================================
    AXORA DESIGN TOKENS
-   Theme: locked dark "midnight" enterprise. One theme for the whole page.
-   Depth comes from surface elevation + glass + light fields, never from
-   flipping a section to a light background.
+   Theme: dark enterprise base with alternating light bands, matching the
+   Axora brand reference. The site opens and closes dark (hero, ticker,
+   inquiry, footer) and lets mid-page sections carry white/paper bands, so
+   depth comes from that light/dark rhythm as well as surface elevation.
 
-   Accent: ONE hue family (azure). Three ramp steps with defined jobs:
-     --color-azure-deep  filled buttons only (white text = 5.7:1)
+   Accent: azure stays the ONLY action color (every CTA, every focus ring,
+   every link). Violet and magenta are decorative-only, reserved for stat
+   chips and the hero's gradient word, exactly like the reference's colored
+   stat icons. Never put violet/magenta on a button or a link.
+     --color-azure-deep  filled buttons (white text = 5.7:1)
      --color-azure       borders, fills, glows, focus rings (no text on top)
-     --color-azure-soft  accent text on dark surfaces (7.9:1)
+     --color-azure-soft  accent text on DARK surfaces (7.9:1)
+     --color-*-deep      filled chips (white icon on top) on ANY surface
+     --color-*-soft      accent text/icons on DARK surfaces only
+
+   Light-band tokens (paper/onlight) mirror the dark ramp one-for-one so every
+   component that flips bands swaps token names, not logic.
 
    Radius rule (only two values, applied everywhere):
      rounded-panel   16px  panels, cards, media frames
@@ -17,25 +26,49 @@
    ========================================================================== */
 
 @theme {
-  /* surfaces, darkest to lightest */
+  /* dark surfaces, darkest to lightest */
   --color-ink: #05070f;
   --color-ink-2: #080d1a;
   --color-panel: #0b1120;
   --color-panel-2: #101a2e;
 
-  /* hairlines */
+  /* dark hairlines */
   --color-line: #18223a;
   --color-line-2: #24304f;
 
-  /* text */
+  /* text on dark */
   --color-fg: #eef2fb;
   --color-fg-2: #a9b4cc;
   --color-fg-3: #7986a3;
 
-  /* accent ramp (single hue) */
+  /* light surfaces, lightest to darkest */
+  --color-paper: #f6f8fc;
+  --color-paper-2: #eceff8;
+  --color-panel-light: #ffffff;
+
+  /* light hairlines */
+  --color-paper-line: #e1e6f1;
+  --color-paper-line-2: #cbd2e6;
+
+  /* text on light */
+  --color-onlight: #0b1120;
+  --color-onlight-2: #4a5578;
+  --color-onlight-3: #5c6690;
+
+  /* accent ramp, primary hue (action color, used everywhere) */
   --color-azure: #3d6ef7;
   --color-azure-deep: #2a5be0;
   --color-azure-soft: #7da6ff;
+
+  /* accent ramp, decorative hue (stat chips, gradient word only) */
+  --color-violet: #7c5cf0;
+  --color-violet-deep: #5f42d6;
+  --color-violet-soft: #b4a3ff;
+
+  /* accent ramp, decorative hue (stat chips only) */
+  --color-magenta: #d9498f;
+  --color-magenta-deep: #a52f6e;
+  --color-magenta-soft: #f2a9cf;
 
   /* semantic state only, never decorative */
   --color-alert: #ff9aa8;
@@ -139,31 +172,46 @@
   );
 }
 
-/* Blueprint field: organises the hero and the process rail, low contrast. */
+/* Blueprint field: organises the hero, low contrast lines for a dark surface. */
 @utility field-grid {
   background-image:
-    linear-gradient(to right, rgb(125 166 255 / 0.055) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(125 166 255 / 0.055) 1px, transparent 1px);
+    linear-gradient(to right, rgb(125 166 255 / 0.09) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(125 166 255 / 0.09) 1px, transparent 1px);
   background-size: 72px 72px;
 }
 
-/* Ambient light behind the hero and the inquiry panel. */
+/* Same blueprint field, recoloured for a paper surface. */
+@utility field-grid-light {
+  background-image:
+    linear-gradient(to right, rgb(42 91 224 / 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(42 91 224 / 0.07) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+/**
+ * Ambient light behind the hero.
+ *
+ * The bright core sits off-centre right, which is where the video plays. That is
+ * deliberate: the hero composition has to hold on its own before the loop
+ * downloads, and it has to hold permanently for visitors with reduced motion set,
+ * who never get the video at all.
+ */
 @utility light-field {
   background-image:
     radial-gradient(
-      70% 55% at 18% 4%,
-      color-mix(in oklab, var(--color-azure) 26%, transparent),
-      transparent 70%
-    ),
-    radial-gradient(
-      55% 45% at 92% 12%,
-      color-mix(in oklab, #6d5cf0 20%, transparent),
+      58% 56% at 76% 24%,
+      color-mix(in oklab, var(--color-azure) 42%, transparent),
       transparent 68%
     ),
     radial-gradient(
-      80% 60% at 50% 100%,
-      color-mix(in oklab, var(--color-ink) 92%, transparent),
-      transparent 60%
+      68% 58% at 10% 2%,
+      color-mix(in oklab, var(--color-azure) 24%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      52% 44% at 92% 92%,
+      color-mix(in oklab, #6d5cf0 26%, transparent),
+      transparent 70%
     );
 }
 
@@ -215,16 +263,18 @@
 
 /* --------------------------------------------------------------------------
    Placeholder asset frame. Structured slot, easy to swap for a real asset.
+   Both call sites (Services, Projects) sit in light bands, so this is styled
+   for a paper surface.
    -------------------------------------------------------------------------- */
 
 .asset-slot {
-  background-color: var(--color-ink-2);
+  background-color: var(--color-paper-2);
   background-image: repeating-linear-gradient(
     -45deg,
-    rgb(125 166 255 / 0.05) 0 1px,
+    rgb(42 91 224 / 0.05) 0 1px,
     transparent 1px 11px
   );
-  border: 1px dashed var(--color-line-2);
+  border: 1px dashed var(--color-paper-line-2);
 }
 
 /* --------------------------------------------------------------------------
