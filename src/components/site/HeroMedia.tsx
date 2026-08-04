@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 
 /**
@@ -12,12 +12,20 @@ import { motion, useReducedMotion, useScroll, useTransform } from "motion/react"
  *
  * Motion: a slow push on the media as the hero leaves the viewport. Motivation is
  * depth, the copy layer stays still while the media drifts, which signals that the
- * glass panel is in front of the scene rather than painted on it. Off entirely
- * under reduced motion, where the video does not autoplay either.
+ * glass panel is in front of the scene rather than painted on it.
+ *
+ * Reduced motion: the whole video layer is removed by the CSS `motion-reduce`
+ * variant, which also makes the parallax transform moot since it only ever applies
+ * to that layer. This is CSS rather than a render branch on purpose. Branching JSX
+ * on useReducedMotion() renders one tree on the server and another on the client,
+ * which throws a hydration error for exactly the visitors the branch was meant to
+ * help. The hook is used here only inside an effect, where it cannot affect markup.
  */
 export function HeroMedia() {
   const ref = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const reduce = useReducedMotion();
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
@@ -26,38 +34,43 @@ export function HeroMedia() {
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "14%"]);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
 
+  // CSS hides the layer; this stops the file decoding in the background too.
+  useEffect(() => {
+    if (reduce) videoRef.current?.pause();
+  }, [reduce]);
+
   return (
     <div ref={ref} className="absolute inset-0 -z-10 overflow-hidden">
       {/* Ambient field. Also the fallback when no video is present. */}
       <div className="absolute inset-0 light-field" />
 
-      {!reduce && (
-        <motion.div
-          style={{ y, scale }}
-          className="absolute inset-0 will-change-transform"
+      <motion.div
+        style={{ y, scale }}
+        className="absolute inset-0 will-change-transform motion-reduce:hidden"
+      >
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          aria-hidden="true"
+          tabIndex={-1}
+          className="size-full object-cover opacity-70"
         >
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            aria-hidden="true"
-            tabIndex={-1}
-            className="size-full object-cover opacity-70"
-          >
-            <source src="/media/hero-loop.webm" type="video/webm" />
-            <source src="/media/hero-loop.mp4" type="video/mp4" />
-          </video>
-        </motion.div>
-      )}
+          <source src="/media/hero-loop.webm" type="video/webm" />
+          <source src="/media/hero-loop.mp4" type="video/mp4" />
+        </video>
+      </motion.div>
 
-      {/* Blueprint field, organises the empty right half of the composition. */}
-      <div className="absolute inset-0 field-grid opacity-70" />
+      {/* Blueprint field, gives the open right half of the composition structure. */}
+      <div className="absolute inset-0 field-grid opacity-80" />
 
-      {/* Scrim. Heavy on the left where the copy sits, open on the right. */}
-      <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/85 to-ink/20" />
-      <div className="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-ink/45" />
+      {/* Scrim. Heavy on the left where the copy sits, open on the right so the
+          light core stays visible. */}
+      <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/78 to-ink/5" />
+      <div className="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-ink/25" />
     </div>
   );
 }
