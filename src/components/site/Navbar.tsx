@@ -73,12 +73,17 @@ export function Navbar() {
             </nav>
 
             <div className="flex items-center gap-2">
-              <Button
-                href={cta.contactHref}
-                className="hidden sm:inline-flex px-4 py-2.5 text-sm"
-              >
-                {cta.contact}
-              </Button>
+              {/*
+                Wrapped rather than given `hidden sm:inline-flex` directly: the
+                button's own base class sets `inline-flex`, and Tailwind emits
+                responsive variants after unprefixed utilities, so `sm:inline-flex`
+                would win at every width and the button would never hide.
+              */}
+              <div className="hidden sm:block">
+                <Button href={cta.contactHref} className="px-4 py-2.5 text-sm">
+                  {cta.contact}
+                </Button>
+              </div>
 
               <button
                 type="button"
