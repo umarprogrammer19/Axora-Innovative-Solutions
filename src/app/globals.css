@@ -7,24 +7,23 @@
    inquiry, footer) and lets mid-page sections carry white/paper bands, so
    depth comes from that light/dark rhythm as well as surface elevation.
 
-   Every value below was sampled directly from the reference screenshot
-   (pixel-picked, not eyeballed): the dark surface is a navy, not a neutral
-   near-black, and the reference's signature move is a blue-to-violet
-   gradient on one word per major heading, not a single flat blue.
+   The dark ramp reads as black, like systemsltd.com's black-first surfaces,
+   not as a colored (navy or plum) background. Color comes from the
+   decorative accent ramp below, never from the base surface.
 
-   Accent: azure stays the ONLY action color (every CTA, every focus ring,
-   every link). Violet and magenta are decorative-only, reserved for the
-   gradient headline word and stat chips, exactly like the reference. Never
-   put violet/magenta on a button or a link.
-     --color-azure-deep  filled buttons (white text = 4.9:1)
-     --color-azure       borders, fills, glows, gradient start
-     --color-azure-soft  small accent text/icons on DARK surfaces only
-     --color-violet      gradient midpoint (dark headlines)
-     --color-violet-deep gradient end (both dark and light headlines),
-                         also filled chips (white icon on top)
-     --color-violet-soft pale lavender, accent text on DARK surfaces only
-                         (10.9:1) - never used as text on a light surface,
-                         it disappears there
+   Accent: azure is the FUNCTIONAL color, held to two jobs only, the primary
+   button and interactive focus states (focus rings, focused inputs). It never
+   appears as decoration. Every decorative accent (icons, gradient headline
+   words, stat chips, dashes, glows) is violet or magenta.
+     --color-azure-deep  filled buttons only (white text = 4.9:1)
+     --color-azure       focus rings, focused input borders, nothing else
+     --color-violet      gradient start, decorative icons/dashes on dark
+     --color-violet-deep gradient mid/end, filled chips (white icon on top),
+                         decorative icons/dashes on light
+     --color-violet-soft pale lavender, decorative accent text on DARK
+                         surfaces only (10.4:1) - unreadable on a light
+                         surface, never use it there
+     --color-magenta*    gradient end on dark, third stat chip
 
    Light-band tokens (paper/onlight) mirror the dark ramp one-for-one so every
    component that flips bands swaps token names, not logic.
@@ -35,17 +34,17 @@
    ========================================================================== */
 
 @theme {
-  /* dark surfaces, darkest to lightest. #020c24 is the reference's exact hero
-     background (sampled, not approximated), so this ramp is a navy family
-     rather than a neutral near-black. */
-  --color-ink: #020c24;
-  --color-ink-2: #071730;
-  --color-panel: #0b1d40;
-  --color-panel-2: #132752;
+  /* dark surfaces, darkest to lightest. Reads as black - off-black rather
+     than a literal #000000, per the no-pure-black rule, but nowhere near
+     visibly navy or violet. */
+  --color-ink: #000619;
+  --color-ink-2: #010d27;
+  --color-panel: #041b3f;
+  --color-panel-2: #072754;
 
   /* dark hairlines */
-  --color-line: #1b2c55;
-  --color-line-2: #2a3d6b;
+  --color-line: #0c2c55;
+  --color-line-2: #163a6e;
 
   /* text on dark */
   --color-fg: #eef2fb;
@@ -66,15 +65,18 @@
   --color-onlight-2: #4a5578;
   --color-onlight-3: #5c6690;
 
-  /* accent ramp, primary hue (action color, used everywhere) */
+  /* accent ramp, primary hue - functional only, never decorative */
   --color-azure: #3b6eed;
   --color-azure-deep: #1365f9;
-  --color-azure-soft: #7da6ff;
 
   /* accent ramp, decorative hue (gradient headlines, stat chips) */
   --color-violet: #7877f7;
   --color-violet-deep: #8871cf;
   --color-violet-soft: #d4b7e8;
+  /* darker than violet-deep, for small accent text on LIGHT surfaces where
+     violet-deep's 3.7:1 reads fine for a large gradient word or an icon but
+     fails AA (4.5:1) for a body-sized label */
+  --color-violet-ink: #6d4fc4;
 
   /* accent ramp, decorative hue (stat chips only) */
   --color-magenta: #d9498f;
@@ -183,19 +185,13 @@
   );
 }
 
-/* Blueprint field: organises the hero, low contrast lines for a dark surface. */
+/* Blueprint field: organises the hero and the services grid, low contrast
+   lines for a dark surface. Both current uses are dark, so there is no
+   paper-surface variant right now - add one back if a light band needs it. */
 @utility field-grid {
   background-image:
-    linear-gradient(to right, rgb(125 166 255 / 0.09) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(125 166 255 / 0.09) 1px, transparent 1px);
-  background-size: 72px 72px;
-}
-
-/* Same blueprint field, recoloured for a paper surface. */
-@utility field-grid-light {
-  background-image:
-    linear-gradient(to right, rgb(42 91 224 / 0.07) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(42 91 224 / 0.07) 1px, transparent 1px);
+    linear-gradient(to right, rgb(212 183 232 / 0.10) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(212 183 232 / 0.10) 1px, transparent 1px);
   background-size: 72px 72px;
 }
 
@@ -211,17 +207,17 @@
   background-image:
     radial-gradient(
       58% 56% at 76% 24%,
-      color-mix(in oklab, var(--color-azure) 42%, transparent),
+      color-mix(in oklab, var(--color-violet) 42%, transparent),
       transparent 68%
     ),
     radial-gradient(
       68% 58% at 10% 2%,
-      color-mix(in oklab, var(--color-azure) 24%, transparent),
+      color-mix(in oklab, var(--color-violet-deep) 24%, transparent),
       transparent 70%
     ),
     radial-gradient(
       52% 44% at 92% 92%,
-      color-mix(in oklab, #6d5cf0 26%, transparent),
+      color-mix(in oklab, var(--color-magenta) 24%, transparent),
       transparent 70%
     );
 }
@@ -282,7 +278,7 @@
   background-color: var(--color-paper-2);
   background-image: repeating-linear-gradient(
     -45deg,
-    rgb(42 91 224 / 0.05) 0 1px,
+    rgb(136 113 207 / 0.06) 0 1px,
     transparent 1px 11px
   );
   border: 1px dashed var(--color-paper-line-2);
