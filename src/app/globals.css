@@ -7,15 +7,24 @@
    inquiry, footer) and lets mid-page sections carry white/paper bands, so
    depth comes from that light/dark rhythm as well as surface elevation.
 
+   Every value below was sampled directly from the reference screenshot
+   (pixel-picked, not eyeballed): the dark surface is a navy, not a neutral
+   near-black, and the reference's signature move is a blue-to-violet
+   gradient on one word per major heading, not a single flat blue.
+
    Accent: azure stays the ONLY action color (every CTA, every focus ring,
-   every link). Violet and magenta are decorative-only, reserved for stat
-   chips and the hero's gradient word, exactly like the reference's colored
-   stat icons. Never put violet/magenta on a button or a link.
-     --color-azure-deep  filled buttons (white text = 5.7:1)
-     --color-azure       borders, fills, glows, focus rings (no text on top)
-     --color-azure-soft  accent text on DARK surfaces (7.9:1)
-     --color-*-deep      filled chips (white icon on top) on ANY surface
-     --color-*-soft      accent text/icons on DARK surfaces only
+   every link). Violet and magenta are decorative-only, reserved for the
+   gradient headline word and stat chips, exactly like the reference. Never
+   put violet/magenta on a button or a link.
+     --color-azure-deep  filled buttons (white text = 4.9:1)
+     --color-azure       borders, fills, glows, gradient start
+     --color-azure-soft  small accent text/icons on DARK surfaces only
+     --color-violet      gradient midpoint (dark headlines)
+     --color-violet-deep gradient end (both dark and light headlines),
+                         also filled chips (white icon on top)
+     --color-violet-soft pale lavender, accent text on DARK surfaces only
+                         (10.9:1) - never used as text on a light surface,
+                         it disappears there
 
    Light-band tokens (paper/onlight) mirror the dark ramp one-for-one so every
    component that flips bands swaps token names, not logic.
@@ -26,15 +35,17 @@
    ========================================================================== */
 
 @theme {
-  /* dark surfaces, darkest to lightest */
-  --color-ink: #05070f;
-  --color-ink-2: #080d1a;
-  --color-panel: #0b1120;
-  --color-panel-2: #101a2e;
+  /* dark surfaces, darkest to lightest. #020c24 is the reference's exact hero
+     background (sampled, not approximated), so this ramp is a navy family
+     rather than a neutral near-black. */
+  --color-ink: #020c24;
+  --color-ink-2: #071730;
+  --color-panel: #0b1d40;
+  --color-panel-2: #132752;
 
   /* dark hairlines */
-  --color-line: #18223a;
-  --color-line-2: #24304f;
+  --color-line: #1b2c55;
+  --color-line-2: #2a3d6b;
 
   /* text on dark */
   --color-fg: #eef2fb;
@@ -56,14 +67,14 @@
   --color-onlight-3: #5c6690;
 
   /* accent ramp, primary hue (action color, used everywhere) */
-  --color-azure: #3d6ef7;
-  --color-azure-deep: #2a5be0;
+  --color-azure: #3b6eed;
+  --color-azure-deep: #1365f9;
   --color-azure-soft: #7da6ff;
 
-  /* accent ramp, decorative hue (stat chips, gradient word only) */
-  --color-violet: #7c5cf0;
-  --color-violet-deep: #5f42d6;
-  --color-violet-soft: #b4a3ff;
+  /* accent ramp, decorative hue (gradient headlines, stat chips) */
+  --color-violet: #7877f7;
+  --color-violet-deep: #8871cf;
+  --color-violet-soft: #d4b7e8;
 
   /* accent ramp, decorative hue (stat chips only) */
   --color-magenta: #d9498f;
