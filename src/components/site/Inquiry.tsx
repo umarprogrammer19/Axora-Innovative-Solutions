@@ -19,18 +19,19 @@ import { initialInquiryState } from "@/lib/inquiry";
 import { contact, cta, inquiry } from "@/lib/content";
 
 /**
- * Layout family: form beside a supporting panel. Used once, directly before
- * the footer. This is the real destination behind every "Contact Us" /
- * "Book an Executive Briefing" / "Start Your Transformation" link on the
- * page (see cta.contactHref in content.ts) - the closing Cta banner above
- * this section has no fields of its own, this does.
+ * Layout family: form beside a supporting panel. Used once, on /contact.
+ * This is the real destination behind every "Contact Us" / "Book an
+ * Executive Briefing" / "Start Your Transformation" link on the site (see
+ * cta.contactHref in content.ts).
  *
- * Contrast, checked against --color-ink:
- *   labels     #a9b4cc on #05070f  = 8.7:1
- *   input text #eef2fb on #101a2e  = 15:1
- *   helper     #7986a3 on #101a2e  = 4.7:1
- *   errors     #ff9aa8 on #05070f  = 9.3:1
- *   focus ring #3d6ef7 border against the input fill clears the 3:1 non-text bar
+ * White band. Ran dark for a pass; against a page that opens with a dark
+ * PageHero, a second dark band directly under it read heavier than the form
+ * needed, so this is the one white surface on /contact.
+ *
+ * Error red does not reuse --color-alert: that token (#ff9aa8) is tuned for
+ * 9:1+ contrast on the dark surfaces it was built for and fails badly on
+ * white, so this uses a separate accessible red for on-light error text and
+ * invalid borders.
  *
  * Labels sit above every control, helper text under it, error text below that.
  * There are no placeholders standing in for labels.
@@ -38,11 +39,13 @@ import { contact, cta, inquiry } from "@/lib/content";
  * Mobile (< 1024px): the panel moves below the form, field pairs go single column.
  */
 
+const errorColor = "text-[#b91c1c]";
+
 const control =
-  "w-full rounded-control border border-line-2 bg-panel-2 px-3.5 py-3 text-[0.9375rem] text-fg " +
+  "w-full rounded-control border border-paper-line-2 bg-paper px-3.5 py-3 text-[0.9375rem] text-onlight " +
   "outline-none transition-[border-color,box-shadow] duration-200 " +
   "focus:border-azure focus:ring-2 focus:ring-azure/25 " +
-  "aria-[invalid=true]:border-alert/70 disabled:opacity-60";
+  "aria-[invalid=true]:border-[#b91c1c]/60 disabled:opacity-60";
 
 function Field({
   name,
@@ -59,17 +62,17 @@ function Field({
 }) {
   return (
     <div className="flex flex-col gap-2">
-      <label htmlFor={name} className="text-[0.8125rem] font-medium text-fg-2">
+      <label htmlFor={name} className="text-[0.8125rem] font-medium text-onlight-2">
         {label}
       </label>
       {children}
       {hint && !error && (
-        <p id={`${name}-hint`} className="text-[0.75rem] text-fg-3">
+        <p id={`${name}-hint`} className="text-[0.75rem] text-onlight-3">
           {hint}
         </p>
       )}
       {error && (
-        <p id={`${name}-error`} className="text-[0.75rem] text-alert">
+        <p id={`${name}-error`} className={`text-[0.75rem] ${errorColor}`}>
           {error}
         </p>
       )}
@@ -94,10 +97,10 @@ export function Inquiry({ showHeading = true }: { showHeading?: boolean }) {
         : undefined;
 
   return (
-    <section id="inquiry" className="relative overflow-hidden bg-ink py-24 sm:py-28 lg:py-32">
+    <section id="inquiry" className="relative overflow-hidden bg-panel-light py-24 sm:py-28 lg:py-32">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-[radial-gradient(55%_100%_at_15%_0%,rgb(2_96_253/0.16),transparent_70%),radial-gradient(45%_80%_at_85%_0%,rgb(123_92_250/0.12),transparent_70%)]"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-[radial-gradient(55%_100%_at_15%_0%,rgb(2_96_253/0.07),transparent_70%),radial-gradient(45%_80%_at_85%_0%,rgb(123_92_250/0.06),transparent_70%)]"
       />
 
       <Container>
@@ -105,10 +108,10 @@ export function Inquiry({ showHeading = true }: { showHeading?: boolean }) {
           <div className="lg:col-span-7">
             {showHeading && (
               <Reveal>
-                <h2 className="text-[clamp(1.75rem,3.4vw,2.75rem)] font-semibold leading-[1.12] text-fg">
+                <h2 className="text-[clamp(1.75rem,3.4vw,2.75rem)] font-semibold leading-[1.12] text-onlight">
                   {inquiry.heading}
                 </h2>
-                <p className="mt-5 max-w-[56ch] text-[1.0625rem] leading-relaxed text-fg-2">
+                <p className="mt-5 max-w-[56ch] text-[1.0625rem] leading-relaxed text-onlight-3">
                   {inquiry.body}
                 </p>
               </Reveal>
@@ -116,18 +119,18 @@ export function Inquiry({ showHeading = true }: { showHeading?: boolean }) {
 
             <div className={showHeading ? "mt-10" : ""}>
               {state.status === "success" ? (
-                <div className="glass rounded-panel p-8 sm:p-10">
+                <div className="rounded-panel border border-paper-line bg-paper p-8 sm:p-10">
                   <span className="grid size-10 place-items-center rounded-full bg-ok/15 text-ok ring-1 ring-ok/30">
                     <Check size={17} weight="bold" aria-hidden="true" />
                   </span>
-                  <h3 className="mt-6 text-[1.25rem] font-semibold text-fg">
+                  <h3 className="mt-6 text-[1.25rem] font-semibold text-onlight">
                     Inquiry received
                   </h3>
-                  <p className="mt-3 max-w-[48ch] text-[0.9375rem] leading-relaxed text-fg-2">
+                  <p className="mt-3 max-w-[48ch] text-[0.9375rem] leading-relaxed text-onlight-3">
                     {state.message} If it is urgent, email us at{" "}
                     <a
                       href={`mailto:${contact.email}`}
-                      className="text-azure-soft underline decoration-azure/40 underline-offset-4 hover:decoration-azure"
+                      className="text-azure underline decoration-azure/40 underline-offset-4 hover:decoration-azure"
                     >
                       {contact.email}
                     </a>
@@ -202,7 +205,7 @@ export function Inquiry({ showHeading = true }: { showHeading?: boolean }) {
                           className={`${control} appearance-none pr-11`}
                         >
                           {inquiry.budgets.map((band) => (
-                            <option key={band} value={band} className="bg-panel-2 text-fg">
+                            <option key={band} value={band} className="bg-panel-light text-onlight">
                               {band}
                             </option>
                           ))}
@@ -210,7 +213,7 @@ export function Inquiry({ showHeading = true }: { showHeading?: boolean }) {
                         <CaretDown
                           size={14}
                           aria-hidden="true"
-                          className="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-fg-3"
+                          className="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-onlight-3"
                         />
                       </div>
                     </Field>
@@ -256,7 +259,7 @@ export function Inquiry({ showHeading = true }: { showHeading?: boolean }) {
                     <p
                       aria-live="polite"
                       className={`text-[0.8125rem] ${
-                        state.status === "error" ? "text-alert" : "text-fg-3"
+                        state.status === "error" ? errorColor : "text-onlight-3"
                       }`}
                     >
                       {isPending
@@ -272,22 +275,22 @@ export function Inquiry({ showHeading = true }: { showHeading?: boolean }) {
           </div>
 
           <aside className="lg:col-span-5">
-            <Reveal delay={0.1} className="glass-strong rounded-panel p-7 sm:p-9">
-              <h3 className="text-[0.8125rem] font-medium text-fg-3">
+            <Reveal delay={0.1} className="rounded-panel border border-paper-line bg-paper p-7 sm:p-9">
+              <h3 className="text-[0.8125rem] font-medium text-onlight-3">
                 What happens after you send it
               </h3>
 
               <ol className="mt-6 space-y-6">
                 {inquiry.next.map((item, i) => (
                   <li key={item.title} className="flex gap-4">
-                    <span className="mt-0.5 font-mono text-[0.75rem] text-azure-soft">
+                    <span className="mt-0.5 font-mono text-[0.75rem] text-azure">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span>
-                      <span className="block text-[0.9375rem] font-medium text-fg">
+                      <span className="block text-[0.9375rem] font-medium text-onlight">
                         {item.title}
                       </span>
-                      <span className="mt-1.5 block text-[0.875rem] leading-relaxed text-fg-2">
+                      <span className="mt-1.5 block text-[0.875rem] leading-relaxed text-onlight-3">
                         {item.body}
                       </span>
                     </span>
@@ -295,23 +298,23 @@ export function Inquiry({ showHeading = true }: { showHeading?: boolean }) {
                 ))}
               </ol>
 
-              <div className="mt-9 space-y-3.5 border-t border-white/[0.07] pt-7">
+              <div className="mt-9 space-y-3.5 border-t border-paper-line pt-7">
                 <a
                   href={`mailto:${contact.email}`}
-                  className="flex items-center gap-3 text-[0.875rem] text-fg-2 transition-colors hover:text-fg"
+                  className="flex items-center gap-3 text-[0.875rem] text-onlight-3 transition-colors hover:text-onlight"
                 >
-                  <EnvelopeSimple size={15} className="text-fg-3" aria-hidden="true" />
+                  <EnvelopeSimple size={15} className="text-onlight-3" aria-hidden="true" />
                   {contact.email}
                 </a>
                 <a
                   href={`tel:${contact.phone.replace(/\s/g, "")}`}
-                  className="flex items-center gap-3 text-[0.875rem] text-fg-2 transition-colors hover:text-fg"
+                  className="flex items-center gap-3 text-[0.875rem] text-onlight-3 transition-colors hover:text-onlight"
                 >
-                  <Phone size={15} className="text-fg-3" aria-hidden="true" />
+                  <Phone size={15} className="text-onlight-3" aria-hidden="true" />
                   {contact.phone}
                 </a>
-                <p className="flex items-center gap-3 text-[0.875rem] text-fg-2">
-                  <MapPin size={15} className="text-fg-3" aria-hidden="true" />
+                <p className="flex items-center gap-3 text-[0.875rem] text-onlight-3">
+                  <MapPin size={15} className="text-onlight-3" aria-hidden="true" />
                   {contact.location}
                 </p>
               </div>
