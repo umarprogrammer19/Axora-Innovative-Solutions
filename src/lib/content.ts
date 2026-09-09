@@ -521,14 +521,14 @@ export const contactPage = {
       href: "mailto:partners@axora.com",
     },
   ],
-  hours: "Sunday to Thursday, 9:00 to 18:00 PKT",
+  hours: "Monday to Friday, 9:00 to 18:00 GMT",
   faqs: [
     {
       q: "How soon will I hear back?",
       a: "Within one working day, from someone who would work on the engagement.",
     },
     {
-      q: "Do you work with companies outside Pakistan?",
+      q: "Do you work with companies outside the UK?",
       a: "Yes. Roughly a third of current engagements are fully remote, across different time zones.",
     },
     {
@@ -557,8 +557,8 @@ export const inquiry = {
 
 export const contact = {
   email: "team.manax@gmail.com",
-  phone: "+92 21 111 123 672",
-  location: "Plot #, Tech Square, Karachi, Pakistan",
+  phone: "+44 7359 639090",
+  location: "82 Salisbury Avenue, Barking, Essex, IG11 9XS",
 } as const;
 
 export const footer = {
