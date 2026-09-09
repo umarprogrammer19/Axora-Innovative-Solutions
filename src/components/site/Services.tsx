@@ -49,9 +49,12 @@ export function Services() {
           <p className="mt-5 max-w-[48ch] text-[0.9375rem] leading-relaxed text-onlight-3">
             {servicesSection.body}
           </p>
-          <ul className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 divide-x divide-paper-line-2">
+          <ul className="mt-6 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-4 sm:gap-y-2 sm:divide-x sm:divide-paper-line-2">
             {servicesSection.stats.map((stat) => (
-              <li key={stat} className="pl-4 text-[0.8125rem] font-medium text-onlight-2 first:pl-0">
+              <li
+                key={stat}
+                className="text-[0.8125rem] font-medium text-onlight-2 sm:pl-4 sm:first:pl-0"
+              >
                 {stat}
               </li>
             ))}
