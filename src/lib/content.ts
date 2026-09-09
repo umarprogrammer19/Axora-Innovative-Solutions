@@ -92,6 +92,7 @@ export const servicesSection = {
   eyebrow: "WHAT WE DO",
   heading: { lead: "Solutions built for", accent: "operational scale." },
   body: "Comprehensive automation, intelligence, and integration capabilities designed to elevate how your enterprise runs.",
+  stats: ["4-16 weeks to live", "2-6 month payback", "25-50+ hours freed per week"],
   exploreLink: "Explore all services",
   exploreHref: "/services",
 } as const;
@@ -243,6 +244,145 @@ export const industries = [
   { id: "public", title: "Public Sector & Development" },
 ] as const;
 
+export const industrySolutionsSection = {
+  eyebrow: "AI AUTOMATION FOR SMES",
+  heading: "Select your industry.",
+} as const;
+
+export const industrySolutions = [
+  {
+    id: "insurance",
+    title: "Insurance Companies",
+    body: "Claims take 5 days? We make it same-day. Manual renewals? Automated. Compliance reports eating time? Done automatically.",
+    link: "View Insurance Solutions",
+    href: "/contact",
+  },
+  {
+    id: "legal",
+    title: "Law Firms",
+    body: "Associates waste weeks on document review. Contracts scattered everywhere. Time entry manual. We automate all of it.",
+    link: "View Legal Solutions",
+    href: "/contact",
+  },
+  {
+    id: "healthcare",
+    title: "Healthcare Clinics",
+    body: "Staff drowning in admin. 25% no-show rate. Insurance verification slow. Billing backlog. We fix it.",
+    link: "View Healthcare Solutions",
+    href: "/contact",
+  },
+  {
+    id: "realestate",
+    title: "Real Estate",
+    body: "Leads wait hours and admin slows deals. We automate lead qualification, follow-ups, showing scheduling, documents, CRM, and tracking.",
+    link: "View Real Estate Solutions",
+    href: "/contact",
+  },
+] as const;
+
+export const howItWorks = {
+  heading: "How it works.",
+  subheading: "Same process, every industry.",
+  steps: [
+    {
+      week: "Week 1",
+      title: "We map your workflow",
+      body: "A working session with the people doing the work, to see exactly where the time goes.",
+    },
+    {
+      week: "Week 2",
+      title: "We identify high-ROI automations",
+      body: "Ranked by impact, so the first release targets the most expensive bottleneck.",
+    },
+    {
+      week: "Week 3-4",
+      title: "We build and test",
+      body: "A working slice runs on your data, with your team using it, not a slide deck.",
+    },
+    {
+      week: "Week 5+",
+      title: "We deploy and optimize",
+      body: "Live in your environment, then tuned against the numbers it actually produces.",
+    },
+  ],
+} as const;
+
+export const homeFaq = {
+  eyebrow: "COMMON QUESTIONS",
+  heading: "Frequently asked questions.",
+  items: [
+    {
+      q: "What is AI automation exactly?",
+      a: "We build intelligent systems that handle repetitive work automatically. Data entry, document processing, scheduling, and approvals, things that do not require human judgment, are handled by AI. Your team handles the decisions and strategy.",
+    },
+    {
+      q: "How long does implementation take?",
+      a: "4 to 16 weeks depending on complexity. Most teams start with the 4-week Starter package to prove the concept.",
+    },
+    {
+      q: "How much does it cost?",
+      a: "Starts at 20,000 USD for the Starter package, scaling to 50,000 to 150,000+ USD depending on scope. No hidden fees, pricing is upfront.",
+    },
+    {
+      q: "When will we see ROI?",
+      a: "First improvements in 2 to 3 weeks. Full payback period is 2 to 6 months for most organizations.",
+    },
+    {
+      q: "Do we need to hire technical people to run this?",
+      a: "No. Your existing team learns to use it. We handle the technical side.",
+    },
+    {
+      q: "How fast do we see results?",
+      a: "First improvements in 2 to 3 weeks. Full ROI is typically achieved in 2 to 6 months.",
+    },
+    {
+      q: "Will this disrupt our workflow?",
+      a: "No. We integrate into your existing processes. Your team barely notices the transition.",
+    },
+    {
+      q: "Is it secure?",
+      a: "Yes. SOC 2 Type II certified, HIPAA compliant where applicable, data encrypted, with audit trails included.",
+    },
+    {
+      q: "Can we change it later?",
+      a: "Yes. Your team gets trained, and you can modify it yourselves or we can help.",
+    },
+    {
+      q: "What if we are not sure where to start?",
+      a: "That is what our 30-minute consultation is for. We will identify your best opportunities together.",
+    },
+  ],
+} as const;
+
+export const nextSteps = {
+  heading: "Next steps.",
+  paths: [
+    {
+      title: "Free 30-min consultation",
+      price: "Free",
+      body: "Tell us your biggest bottleneck. We will suggest what to automate first.",
+      tone: "azure",
+    },
+    {
+      title: "14-day assessment",
+      price: "$10,000 to $15,000",
+      body: "A detailed roadmap showing exact ROI and timeline.",
+      tone: "violet",
+    },
+    {
+      title: "Start with the Starter package",
+      price: "From $20,000",
+      body: "Prove the concept in 4 weeks before committing to more.",
+      tone: "magenta",
+    },
+  ],
+  ctas: [
+    { label: "Book a Consultation", href: "/contact" },
+    { label: "Get a Quote", href: "/contact" },
+    { label: "See Results by Industry", href: "#industry-solutions" },
+  ],
+} as const;
+
 export const trust = {
   eyebrow: "TRUSTED. CERTIFIED. RECOGNIZED.",
   headingLine1: "Built on trust.",
@@ -365,8 +505,8 @@ export const contactPage = {
     {
       title: "Talk to sales",
       body: "Scoping a new engagement or evaluating Axora for a project.",
-      action: "hello@axora.com",
-      href: "mailto:hello@axora.com",
+      action: "team.manax@gmail.com",
+      href: "mailto:team.manax@gmail.com",
     },
     {
       title: "Get support",
@@ -416,7 +556,7 @@ export const inquiry = {
 } as const;
 
 export const contact = {
-  email: "hello@axora.com",
+  email: "team.manax@gmail.com",
   phone: "+92 21 111 123 672",
   location: "Plot #, Tech Square, Karachi, Pakistan",
 } as const;
