@@ -6,9 +6,11 @@ import type { InquiryField, InquiryState } from "@/lib/inquiry";
  * Inquiry handling.
  *
  * Validation runs on the server so the form still works with JavaScript disabled.
- * The delivery step is the one thing left to wire up: drop your CRM call, email
- * provider, or database insert where the TODO sits below. Everything around it
- * (validation, error reporting, success state, honeypot) is finished.
+ * Delivery goes to a Google Sheet ("Axora Website Inquiries") via an Apps
+ * Script Web App bound to that sheet (doPost appends a row). The deployment
+ * URL lives in GOOGLE_SHEETS_WEBHOOK_URL (.env.local, not committed) rather
+ * than hardcoded here, since it is effectively a write credential: anyone
+ * with the URL can append rows.
  *
  * Only async functions may be exported from this file. Shared types and the
  * initial state live in src/lib/inquiry.ts.
@@ -70,10 +72,18 @@ export async function submitInquiry(
     };
   }
 
-  // TODO: deliver the lead. Replace this with your CRM, email, or database call.
-  // Keep it inside this function so validation stays server side.
   try {
-    // await sendToCrm(values)
+    const webhook = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
+    if (webhook) {
+      // Apps Script always answers with a redirect to the actual response,
+      // and it and its target only need to be reachable, not read.
+      await fetch(webhook, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+    }
+
     return {
       status: "success",
       message: "Thanks. We will reply within one working day.",
