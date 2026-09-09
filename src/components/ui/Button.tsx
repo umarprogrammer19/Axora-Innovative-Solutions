@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
 
 type Variant = "primary" | "ghost";
@@ -40,13 +41,13 @@ export function Button({
 
   if (href) {
     return (
-      <a
+      <Link
         href={href}
         className={cls}
         onClick={onClick as ComponentProps<"a">["onClick"]}
       >
         {children}
-      </a>
+      </Link>
     );
   }
 
