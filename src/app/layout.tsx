@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { MotionProvider } from "@/components/ui/MotionProvider";
+import { Navbar } from "@/components/site/Navbar";
+import { Footer } from "@/components/site/Footer";
 
 const geist = Geist({
   variable: "--font-geist",
@@ -16,13 +18,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Axora Innovative Solutions | AI and Business Automation",
+  title: "Axora Innovative Solutions | AI, Cloud, Data, Outcomes",
   description:
-    "Axora designs, builds, and runs automation for operations teams. First release live in two weeks, measured in hours saved.",
+    "Axora Innovative Solutions empowers enterprises to reimagine operations, accelerate growth, and create lasting impact through AI-driven innovation and intelligent engineering.",
   openGraph: {
     title: "Axora Innovative Solutions",
     description:
-      "Whatever slows you down, we automate it. Automation systems designed, built, and operated for you.",
+      "Intelligence that transforms tomorrow. AI-driven innovation and intelligent engineering for enterprise outcomes.",
     type: "website",
   },
 };
@@ -49,7 +51,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <style>{`[data-reveal]{opacity:1!important;transform:none!important}`}</style>
         </noscript>
 
-        <MotionProvider>{children}</MotionProvider>
+        <MotionProvider>
+          <Navbar />
+          {children}
+          <Footer />
+        </MotionProvider>
 
         {/* Fixed grain layer. Never inside a scrolling container. */}
         <div className="grain" aria-hidden="true" />
