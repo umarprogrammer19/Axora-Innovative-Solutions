@@ -30,23 +30,24 @@ export const nav = [
   },
   {
     label: "Industries",
-    href: "/#industries",
+    href: "/industries",
     items: [
-      { label: "Financial Services", href: "/#industries" },
-      { label: "Telecom & Connectivity", href: "/#industries" },
-      { label: "Retail & Consumer", href: "/#industries" },
-      { label: "Energy & Utilities", href: "/#industries" },
-      { label: "Manufacturing & Supply Chain", href: "/#industries" },
-      { label: "Healthcare & Life Sciences", href: "/#industries" },
-      { label: "Public Sector & Development", href: "/#industries" },
+      { label: "Financial Services", href: "/industries#financial" },
+      { label: "Telecom & Connectivity", href: "/industries#telecom" },
+      { label: "Retail & Consumer", href: "/industries#retail" },
+      { label: "Energy & Utilities", href: "/industries#energy" },
+      { label: "Manufacturing & Supply Chain", href: "/industries#manufacturing" },
+      { label: "Healthcare & Life Sciences", href: "/industries#healthcare" },
+      { label: "Public Sector & Development", href: "/industries#public" },
     ],
   },
+  { label: "Our Work", href: "/our-work" },
   {
     label: "Insights",
     href: "#",
     items: [
       { label: "Articles", href: "#" },
-      { label: "Case Studies", href: "#" },
+      { label: "Case Studies", href: "/our-work" },
       { label: "Whitepapers", href: "#" },
       { label: "Reports", href: "#" },
       { label: "Webinars", href: "#" },
@@ -225,23 +226,90 @@ export const impact = {
   ],
 } as const;
 
-export const industriesSection = {
-  eyebrow: "INDUSTRIES WE EMPOWER",
-  headingLine1: "Deep expertise.",
-  headingLine2Lead: "Real‑world",
-  headingAccent: "impact.",
-  exploreLink: "View all industries",
-  exploreHref: "#industries",
+export const industriesPage = {
+  eyebrow: "INDUSTRIES WE SERVE",
+  heading: { lead: "Deep expertise, built for", accent: "your sector." },
+  body: "Every industry runs on different systems and carries a different bottleneck. Here is how the same automation discipline applies to seven of them.",
 } as const;
 
+/**
+ * `points` is the capability list shown on /industries (each industry's detail
+ * row), mirroring the `services[].points` convention. Distinct from
+ * `industrySolutions` below: that set is four SME-specific pain-point pitches
+ * (Insurance, Law Firms, Healthcare Clinics, Real Estate), this is the broader
+ * enterprise-sector catalogue linked from the main nav and footer.
+ */
 export const industries = [
-  { id: "financial", title: "Financial Services" },
-  { id: "telecom", title: "Telecom & Connectivity" },
-  { id: "retail", title: "Retail & Consumer" },
-  { id: "energy", title: "Energy & Utilities" },
-  { id: "manufacturing", title: "Manufacturing & Supply Chain" },
-  { id: "healthcare", title: "Healthcare & Life Sciences" },
-  { id: "public", title: "Public Sector & Development" },
+  {
+    id: "financial",
+    title: "Financial Services",
+    body: "Banks, lenders, and fintechs run on manual reconciliation, compliance reporting, and fraud review that scales with headcount instead of transaction volume.",
+    points: [
+      "Real-time fraud and anomaly detection across transaction streams",
+      "Automated reconciliation between core banking and ledger systems",
+      "Compliance reporting mapped to regulatory change, not rebuilt each cycle",
+    ],
+  },
+  {
+    id: "telecom",
+    title: "Telecom & Connectivity",
+    body: "Provisioning, network monitoring, and churn analysis still run through systems that were never built to talk to each other.",
+    points: [
+      "Automated provisioning and service activation",
+      "Network anomaly detection before customers notice an outage",
+      "Churn prediction built on your own usage data",
+    ],
+  },
+  {
+    id: "retail",
+    title: "Retail & Consumer",
+    body: "Store, warehouse, and e-commerce inventory rarely agree, and demand forecasting still runs on last season's spreadsheet.",
+    points: [
+      "Unified inventory across stores, warehouse, and storefront",
+      "Demand forecasting built on real sell-through data",
+      "Automated supplier reordering before shelves go empty",
+    ],
+  },
+  {
+    id: "energy",
+    title: "Energy & Utilities",
+    body: "Asset monitoring, outage response, and field service scheduling depend on manual inspection rounds instead of live telemetry.",
+    points: [
+      "Predictive maintenance from live asset telemetry",
+      "Automated outage detection and crew dispatch",
+      "Regulatory and safety reporting generated, not compiled by hand",
+    ],
+  },
+  {
+    id: "manufacturing",
+    title: "Manufacturing & Supply Chain",
+    body: "Production scheduling, quality inspection, and supplier coordination still run on phone calls and spreadsheets that fall out of sync within a day.",
+    points: [
+      "Production scheduling that reacts to real-time line data",
+      "Automated quality inspection and defect flagging",
+      "Supplier and logistics coordination in one system",
+    ],
+  },
+  {
+    id: "healthcare",
+    title: "Healthcare & Life Sciences",
+    body: "Clinical and administrative staff lose hours a day to insurance verification, scheduling, and documentation that adds nothing to patient care.",
+    points: [
+      "Insurance verification and prior authorization automated",
+      "Scheduling and no-show reduction built on patient history",
+      "Clinical documentation drafted from the visit, reviewed by staff",
+    ],
+  },
+  {
+    id: "public",
+    title: "Public Sector & Development",
+    body: "Citizen services and case management often run on paper-based workflows and legacy systems never designed for the volume they carry today.",
+    points: [
+      "Citizen service requests triaged and routed automatically",
+      "Case management systems that finally talk to each other",
+      "Reporting built for audit and compliance from day one",
+    ],
+  },
 ] as const;
 
 export const industrySolutionsSection = {
@@ -459,6 +527,111 @@ export const projects = [
   },
 ] as const;
 
+export const ourWorkPage = {
+  eyebrow: "OUR WORK",
+  heading: { lead: "Automation and platforms,", accent: "shipped and running." },
+  body: "A selection of the systems we have designed, built, and put into production, filtered by the problem each one solves.",
+} as const;
+
+/**
+ * ILLUSTRATIVE case studies, same convention as `projects` above: placeholders
+ * for layout, sector, and category, not signed-off client references. `category`
+ * matches a `services[].id` so the filter sidebar on /our-work can reuse the
+ * service catalogue instead of a second taxonomy.
+ */
+export const ourWork = [
+  {
+    id: "nightshift",
+    category: "automation",
+    client: "Nightshift Logistics",
+    title: "Dispatch scheduling that runs itself overnight",
+    body: "A rules engine replaced a night-shift coordinator manually re-routing drivers by phone.",
+    asset: "Product/dashboard screenshot, dispatch console, 4:3",
+    tone: "azure",
+  },
+  {
+    id: "fenwick",
+    category: "automation",
+    client: "Fenwick & Cole Legal",
+    title: "First-pass document review off associates' desks",
+    body: "Intake, tagging, and a first-pass summary now happen before a human opens the file.",
+    asset: "Product screenshot, document review queue, 4:3",
+    tone: "violet",
+  },
+  {
+    id: "meridian-capital",
+    category: "data",
+    client: "Meridian Capital Partners",
+    title: "One risk dashboard instead of five spreadsheets",
+    body: "Portfolio exposure now updates live instead of through a Friday afternoon reconciliation.",
+    asset: "Product/dashboard screenshot, portfolio risk console, 4:3",
+    tone: "magenta",
+  },
+  {
+    id: "harborview",
+    category: "data",
+    client: "Harborview Health Network",
+    title: "Staffing forecasts built on real patient flow",
+    body: "Ward managers plan shifts against a live model instead of last month's average.",
+    asset: "Product/dashboard screenshot, staffing forecast, 4:3",
+    tone: "azure",
+  },
+  {
+    id: "solstice",
+    category: "integration",
+    client: "Solstice Retail Group",
+    title: "One inventory truth across three systems",
+    body: "Store, warehouse, and storefront stock now reconcile automatically, every few minutes.",
+    asset: "Product screenshot, unified inventory view, 4:3",
+    tone: "violet",
+  },
+  {
+    id: "prairie-grain",
+    category: "integration",
+    client: "Prairie Grain Cooperative",
+    title: "A legacy ERP finally talking to modern tools",
+    body: "One integration layer replaced a dozen brittle scripts moving data between systems by hand.",
+    asset: "Systems diagram, ERP integration layer, 4:3",
+    tone: "magenta",
+  },
+  {
+    id: "bellcrest",
+    category: "agents",
+    client: "Bellcrest Property Management",
+    title: "A tenant copilot that closes most tickets alone",
+    body: "Routine maintenance requests get triaged, scheduled, and confirmed without a human touching them.",
+    asset: "Product screenshot, tenant support copilot, 4:3",
+    tone: "azure",
+  },
+  {
+    id: "ashworth",
+    category: "agents",
+    client: "Ashworth & Reyes Accounting",
+    title: "First-draft client replies from the firm's own files",
+    body: "An internal assistant drafts responses grounded in the firm's own engagement history.",
+    asset: "Product screenshot, internal assistant interface, 4:3",
+    tone: "violet",
+  },
+  {
+    id: "northgate",
+    category: "security",
+    client: "Northgate Utilities",
+    title: "Continuous monitoring without a security hire",
+    body: "Access auditing and threat detection now run around the clock, flagged before they become incidents.",
+    asset: "Product/dashboard screenshot, security monitoring console, 4:3",
+    tone: "magenta",
+  },
+  {
+    id: "kepler",
+    category: "software",
+    client: "Kepler Field Services",
+    title: "One platform replacing spreadsheets and phone calls",
+    body: "Forty field technicians now get jobs, parts, and sign-off through one custom-built app.",
+    asset: "Product screenshot, field service platform, 4:3",
+    tone: "azure",
+  },
+] as const;
+
 export const meaningfulWork = {
   eyebrow: "PURPOSE BEYOND PROFIT",
   headingLine1Lead: "Meaningful",
@@ -571,13 +744,13 @@ export const footer = {
     },
     {
       title: "Industries",
-      links: industries.map((i) => ({ label: i.title, href: "/#industries" })),
+      links: industries.map((i) => ({ label: i.title, href: `/industries#${i.id}` })),
     },
     {
       title: "Insights",
       links: [
         { label: "Articles", href: "#" },
-        { label: "Case Studies", href: "#" },
+        { label: "Case Studies", href: "/our-work" },
         { label: "Whitepapers", href: "#" },
         { label: "Reports", href: "#" },
         { label: "Webinars", href: "#" },
