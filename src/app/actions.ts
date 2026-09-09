@@ -45,6 +45,13 @@ export async function submitInquiry(
     budget: read(formData, "budget"),
   };
 
+  // Optional: the "I'm interested in" chip picker (only rendered on /our-work).
+  // Not validated, since the form works fine with none selected.
+  const interests = formData
+    .getAll("interests")
+    .filter((v): v is string => typeof v === "string")
+    .join(", ");
+
   const fieldErrors: Partial<Record<InquiryField, string>> = {};
 
   if (values.name.length < 2) {
@@ -80,7 +87,7 @@ export async function submitInquiry(
       await fetch(webhook, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify({ ...values, interests }),
       });
     }
 
