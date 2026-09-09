@@ -14,8 +14,15 @@
  * written "/#id" for that reason; a bare "#id" would try to scroll the
  * current page instead of navigating home first.
  */
+/**
+ * Only linking to pages that actually exist right now. The commented entries
+ * below are real destinations we don't have yet (Why Axora/#impact and
+ * Partners/#partners need a home-page section built and wired up; Insights,
+ * Careers, and About Us need their own pages) - uncomment (and point at the
+ * real route) as each one gets built, rather than shipping a "#" dead link.
+ */
 export const nav = [
-  { label: "Why Axora", href: "/#impact" },
+  // { label: "Why Axora", href: "/#impact" },
   {
     label: "Services",
     href: "/services",
@@ -42,29 +49,29 @@ export const nav = [
     ],
   },
   { label: "Our Work", href: "/our-work" },
-  {
-    label: "Insights",
-    href: "#",
-    items: [
-      { label: "Articles", href: "#" },
-      { label: "Case Studies", href: "/our-work" },
-      { label: "Whitepapers", href: "#" },
-      { label: "Reports", href: "#" },
-      { label: "Webinars", href: "#" },
-    ],
-  },
-  { label: "Careers", href: "#" },
-  {
-    label: "About Us",
-    href: "#",
-    items: [
-      { label: "About Us", href: "#" },
-      { label: "Leadership", href: "#" },
-      { label: "Partners", href: "/#partners" },
-      { label: "Newsroom", href: "#" },
-      { label: "Contact Us", href: "/contact" },
-    ],
-  },
+  // {
+  //   label: "Insights",
+  //   href: "#",
+  //   items: [
+  //     { label: "Articles", href: "#" },
+  //     { label: "Case Studies", href: "/our-work" },
+  //     { label: "Whitepapers", href: "#" },
+  //     { label: "Reports", href: "#" },
+  //     { label: "Webinars", href: "#" },
+  //   ],
+  // },
+  // { label: "Careers", href: "#" },
+  // {
+  //   label: "About Us",
+  //   href: "#",
+  //   items: [
+  //     { label: "About Us", href: "#" },
+  //     { label: "Leadership", href: "#" },
+  //     { label: "Partners", href: "/#partners" },
+  //     { label: "Newsroom", href: "#" },
+  //     { label: "Contact Us", href: "/contact" },
+  //   ],
+  // },
 ] as const;
 
 /** One label per intent, reused everywhere on the page. Every "contact"
@@ -749,21 +756,21 @@ export const footer = {
     {
       title: "Insights",
       links: [
-        { label: "Articles", href: "#" },
+        // { label: "Articles", href: "#" },
         { label: "Case Studies", href: "/our-work" },
-        { label: "Whitepapers", href: "#" },
-        { label: "Reports", href: "#" },
-        { label: "Webinars", href: "#" },
+        // { label: "Whitepapers", href: "#" },
+        // { label: "Reports", href: "#" },
+        // { label: "Webinars", href: "#" },
       ],
     },
     {
       title: "Company",
       links: [
-        { label: "About Us", href: "#" },
-        { label: "Leadership", href: "#" },
-        { label: "Partners", href: "/#partners" },
-        { label: "Careers", href: "#" },
-        { label: "Newsroom", href: "#" },
+        // { label: "About Us", href: "#" },
+        // { label: "Leadership", href: "#" },
+        // { label: "Partners", href: "/#partners" },
+        // { label: "Careers", href: "#" },
+        // { label: "Newsroom", href: "#" },
         { label: "Contact Us", href: "/contact" },
       ],
     },
@@ -772,9 +779,12 @@ export const footer = {
     heading: "Get in Touch",
     blurb: "Let's build what's next, together.",
   },
+  // None of these exist yet - restore once /privacy, /terms, and /cookies
+  // are real pages instead of dead links. Cast explicitly since an empty
+  // array literal under `as const` would otherwise infer as `never[]`.
   legal: [
-    { label: "Privacy Policy", href: "/privacy" },
-    { label: "Terms of Use", href: "/terms" },
-    { label: "Cookie Policy", href: "/cookies" },
-  ],
+    // { label: "Privacy Policy", href: "/privacy" },
+    // { label: "Terms of Use", href: "/terms" },
+    // { label: "Cookie Policy", href: "/cookies" },
+  ] as { label: string; href: string }[],
 } as const;
