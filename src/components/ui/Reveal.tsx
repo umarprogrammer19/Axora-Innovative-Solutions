@@ -18,17 +18,21 @@ export function Reveal({
   y = 20,
   className = "",
   as = "div",
+  id,
 }: {
   children: ReactNode;
   delay?: number;
   y?: number;
   className?: string;
   as?: "div" | "li" | "section";
+  /** Forwarded to the DOM node, for anchor targets (`id="ai-data"` etc). */
+  id?: string;
 }) {
   const MotionTag = motion[as];
 
   return (
     <MotionTag
+      id={id}
       data-reveal=""
       className={className}
       initial={{ opacity: 0, y }}
