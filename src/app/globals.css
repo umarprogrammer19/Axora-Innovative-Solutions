@@ -2,30 +2,30 @@
 
 /* ==========================================================================
    AXORA DESIGN TOKENS
-   Theme: derived from the actual logo (public/logo.png), not invented. The
-   mark is a blue-to-charcoal gradient (#0260FD to #1D2A33); those are the only
-   two hues this page uses. No violet, no magenta, no colors the brand doesn't
-   have. The site opens and closes dark (hero, ticker, inquiry, footer) and
-   lets mid-page sections carry white/paper bands.
+   Theme: matched pixel-for-pixel against axora-reference.png (colors sampled
+   directly from that file, see globals.css history for the extraction). The
+   reference runs a three-hue gradient system - blue, violet, magenta - over a
+   near-black navy base, with a light lavender tint reserved for the "purpose"
+   band. This supersedes the earlier single-hue (blue + charcoal only) theme.
 
-   Accent: --color-azure (#0260FD) is the ONE brand color, used everywhere,
-   functional and decorative both, because the logo only has one accent color.
-   --color-panel / --color-onlight (#1D2A33) is the brand's own charcoal,
-   sampled from the wordmark ink, doing double duty as the dark theme's card
-   surface AND the light theme's text color.
-     --color-azure       buttons, links, focus rings, borders, gradient start,
-                         icon chips, large text on light (4.8:1)
-     --color-azure-deep  filled button default state (white text = 6.3:1),
-                         darker chip rotation
-     --color-azure-soft  light tint, accent text/icons on DARK surfaces
-                         (8:1), dark-mode gradient end
+   Accent ramp, sampled hex in comments:
+     --color-azure        buttons, links, focus rings, gradient start (#0260fd,
+                          the reference's own button fill lands at #0057fe)
+     --color-azure-deep   filled button default state, darker chip rotation
+     --color-azure-soft   light tint, accent text/icons on DARK surfaces
+     --color-violet        second gradient stop - "transforms", stat card 3,
+                          purple eyebrows on light bands (~#7b5cfa sampled)
+     --color-violet-soft   lighter violet for eyebrows/text on light bands
+     --color-magenta       third gradient stop - stat card 4 (99.9%), pink
+                          eyebrows on dark bands (~#e85fd1 sampled)
+     --color-magenta-soft  lighter magenta for eyebrows on light bands
      --color-panel / --color-onlight  #1D2A33, the logo's own charcoal -
-                         card fill on dark, text color on light (13.7:1),
-                         light-mode gradient end (matches the logo exactly),
-                         third icon-chip rotation
+                         card fill on dark, text color on light (13.7:1)
 
    Light-band tokens (paper/onlight) mirror the dark ramp one-for-one so every
-   component that flips bands swaps token names, not logic.
+   component that flips bands swaps token names, not logic. --color-lavender
+   is the one light band that departs from paper - the reference's "purpose"
+   section runs a light violet/magenta tint instead of neutral paper.
 
    Radius rule (only two values, applied everywhere):
      rounded-panel   16px  panels, cards, media frames
@@ -66,10 +66,26 @@
   --color-onlight-2: #4a5860;
   --color-onlight-3: #5d6a72;
 
-  /* the brand's one accent, sampled from the logo mark */
+  /* the brand's blue, sampled from the logo mark and confirmed against the
+     reference's own button fill (#0057fe, near-identical) */
   --color-azure: #0260fd;
   --color-azure-deep: #0146b8;
   --color-azure-soft: #6fa8ff;
+
+  /* second and third gradient stops, sampled from the reference's headline
+     gradient, eyebrow text, and stat-card accents */
+  --color-violet: #7b5cfa;
+  --color-violet-deep: #5a3fd8;
+  --color-violet-soft: #ad9bf7;
+
+  --color-magenta: #e85fd1;
+  --color-magenta-deep: #c93fb3;
+  --color-magenta-soft: #f2a8e8;
+
+  /* the one light band that departs from neutral paper, sampled from the
+     reference's "purpose beyond profit" section (~#f7ecf8) */
+  --color-lavender: #f8eefa;
+  --color-lavender-2: #f1def4;
 
   /* semantic state only, never decorative */
   --color-alert: #ff9aa8;
@@ -181,52 +197,58 @@
   }
 }
 
-/* Hairline that fades at both ends. Used to separate bands without a hard rule. */
-@utility rule-fade {
-  background-image: linear-gradient(
-    90deg,
-    transparent,
-    var(--color-line-2) 18%,
-    var(--color-line-2) 82%,
-    transparent
-  );
-}
-
-/* Blueprint field: organises the hero and the services grid, low contrast
-   lines for a dark surface. Both current uses are dark, so there is no
-   paper-surface variant right now - add one back if a light band needs it. */
-@utility field-grid {
-  background-image:
-    linear-gradient(to right, rgb(111 168 255 / 0.09) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(111 168 255 / 0.09) 1px, transparent 1px);
-  background-size: 72px 72px;
-}
-
 /**
- * Ambient light behind the hero.
- *
- * The bright core sits off-centre right, which is where the video plays. That is
- * deliberate: the hero composition has to hold on its own before the loop
- * downloads, and it has to hold permanently for visitors with reduced motion set,
- * who never get the video at all.
+ * Ambient light behind the hero, three hues, matching the reference's swirl
+ * (blue core, violet mid, magenta tail). The bright core sits off-centre
+ * right, under the video in HeroGraphic, and holds the composition on its
+ * own if that graphic is ever removed.
  */
-@utility light-field {
+@utility aurora-field {
   background-image:
     radial-gradient(
-      58% 56% at 76% 24%,
-      color-mix(in oklab, var(--color-azure) 42%, transparent),
+      46% 50% at 78% 30%,
+      color-mix(in oklab, var(--color-azure) 46%, transparent),
       transparent 68%
     ),
     radial-gradient(
-      68% 58% at 10% 2%,
-      color-mix(in oklab, var(--color-azure-deep) 24%, transparent),
+      42% 46% at 62% 58%,
+      color-mix(in oklab, var(--color-violet) 34%, transparent),
       transparent 70%
     ),
     radial-gradient(
-      52% 44% at 92% 92%,
-      color-mix(in oklab, var(--color-azure-soft) 22%, transparent),
+      40% 38% at 74% 86%,
+      color-mix(in oklab, var(--color-magenta) 30%, transparent),
+      transparent 72%
+    ),
+    radial-gradient(
+      68% 58% at 6% 0%,
+      color-mix(in oklab, var(--color-azure-deep) 22%, transparent),
       transparent 70%
     );
+}
+
+/**
+ * Vertical light beams, matching the reference's closing CTA band: thin
+ * glowing rules in the three accent hues, unevenly spaced so it reads as
+ * generative rather than a repeating tile.
+ */
+@utility beam-field {
+  background-image:
+    linear-gradient(to bottom, transparent, color-mix(in oklab, var(--color-azure) 70%, transparent) 35%, transparent 75%),
+    linear-gradient(to bottom, transparent, color-mix(in oklab, var(--color-violet) 65%, transparent) 40%, transparent 80%),
+    linear-gradient(to bottom, transparent, color-mix(in oklab, var(--color-magenta) 65%, transparent) 30%, transparent 70%),
+    linear-gradient(to bottom, transparent, color-mix(in oklab, var(--color-azure-soft) 55%, transparent) 45%, transparent 78%);
+  background-repeat: no-repeat;
+  background-size:
+    1px 100%,
+    1px 100%,
+    1px 100%,
+    1px 100%;
+  background-position:
+    6% 0,
+    17% 0,
+    91% 0,
+    81% 0;
 }
 
 /* --------------------------------------------------------------------------
@@ -242,37 +264,6 @@
   opacity: 0.032;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-/* --------------------------------------------------------------------------
-   Ticker (the single marquee on this page)
-   -------------------------------------------------------------------------- */
-
-.ticker-track {
-  display: flex;
-  width: max-content;
-  animation: ticker 42s linear infinite;
-}
-
-.ticker-mask {
-  mask-image: linear-gradient(
-    90deg,
-    transparent,
-    #000 6%,
-    #000 94%,
-    transparent
-  );
-}
-
-.ticker-viewport:hover .ticker-track,
-.ticker-viewport:focus-within .ticker-track {
-  animation-play-state: paused;
-}
-
-@keyframes ticker {
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
 }
 
 /* --------------------------------------------------------------------------
@@ -296,11 +287,6 @@
    -------------------------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
-  .ticker-track {
-    animation: none;
-    transform: none;
-  }
-
   *,
   *::before,
   *::after {
