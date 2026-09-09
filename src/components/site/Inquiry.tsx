@@ -19,7 +19,11 @@ import { initialInquiryState } from "@/lib/inquiry";
 import { contact, cta, inquiry } from "@/lib/content";
 
 /**
- * Layout family: form beside a supporting panel. Used once.
+ * Layout family: form beside a supporting panel. Used once, directly before
+ * the footer. This is the real destination behind every "Contact Us" /
+ * "Book an Executive Briefing" / "Start Your Transformation" link on the
+ * page (see cta.contactHref in content.ts) - the closing Cta banner above
+ * this section has no fields of its own, this does.
  *
  * Contrast, checked against --color-ink:
  *   labels     #a9b4cc on #05070f  = 8.7:1
@@ -73,7 +77,7 @@ function Field({
   );
 }
 
-export function Inquiry() {
+export function Inquiry({ showHeading = true }: { showHeading?: boolean }) {
   const [state, formAction, isPending] = useActionState(
     submitInquiry,
     initialInquiryState,
@@ -93,25 +97,24 @@ export function Inquiry() {
     <section id="inquiry" className="relative overflow-hidden bg-ink py-24 sm:py-28 lg:py-32">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-[radial-gradient(60%_100%_at_20%_0%,rgb(2_96_253/0.16),transparent_70%)]"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-[radial-gradient(55%_100%_at_15%_0%,rgb(2_96_253/0.16),transparent_70%),radial-gradient(45%_80%_at_85%_0%,rgb(123_92_250/0.12),transparent_70%)]"
       />
 
       <Container>
         <div className="relative grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-7">
-            <Reveal>
-              <p className="font-mono text-[0.6875rem] tracking-[0.2em] text-fg-3 uppercase">
-                {inquiry.eyebrow}
-              </p>
-              <h2 className="mt-4 text-[clamp(1.75rem,3.4vw,2.75rem)] font-semibold leading-[1.12] text-fg">
-                {inquiry.heading}
-              </h2>
-              <p className="mt-5 max-w-[56ch] text-[1.0625rem] leading-relaxed text-fg-2">
-                {inquiry.body}
-              </p>
-            </Reveal>
+            {showHeading && (
+              <Reveal>
+                <h2 className="text-[clamp(1.75rem,3.4vw,2.75rem)] font-semibold leading-[1.12] text-fg">
+                  {inquiry.heading}
+                </h2>
+                <p className="mt-5 max-w-[56ch] text-[1.0625rem] leading-relaxed text-fg-2">
+                  {inquiry.body}
+                </p>
+              </Reveal>
+            )}
 
-            <div className="mt-10">
+            <div className={showHeading ? "mt-10" : ""}>
               {state.status === "success" ? (
                 <div className="glass rounded-panel p-8 sm:p-10">
                   <span className="grid size-10 place-items-center rounded-full bg-ok/15 text-ok ring-1 ring-ok/30">
@@ -215,8 +218,8 @@ export function Inquiry() {
                     <div className="sm:col-span-2">
                       <Field
                         name="bottleneck"
-                        label="What is slowing you down?"
-                        hint="Two or three sentences about the process is plenty."
+                        label="Explain your business workflows"
+                        hint="Two or three sentences is plenty."
                         error={err.bottleneck}
                       >
                         <textarea
