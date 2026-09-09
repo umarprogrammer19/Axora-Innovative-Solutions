@@ -1,20 +1,17 @@
 "use client";
 
 import { motion } from "motion/react";
-import { FileText, LockKey, ShieldCheck } from "@phosphor-icons/react/ssr";
+import { ArrowRight } from "@phosphor-icons/react/ssr";
 
 import { Button } from "@/components/ui/Button";
 import { cta, hero } from "@/lib/content";
 
-const badgeIcons = [ShieldCheck, FileText, LockKey];
-
 /**
- * Hero copy layer, four text elements and no more: headline, subtext, CTA pair,
- * trust badges. No eyebrow, no scroll cue, no decoration strip.
+ * Hero copy layer: eyebrow, headline, subtext, CTA pair, trusted-by logo row.
  *
- * No panel. The copy sits directly on the video, the way systemsltd.com's hero
- * does, so the scrim on HeroMedia is the only thing carrying legibility here -
- * see the comment there before loosening it.
+ * No panel. The copy sits directly on HeroGraphic, the way the reference's
+ * hero does, so the scrim there is the only thing carrying legibility here -
+ * see the comment in HeroGraphic before loosening it.
  *
  * Motion: one staggered entry on load. Motivation is hierarchy, the eye is walked
  * from the claim to the action in the order we want it read. Reduced motion is
@@ -34,45 +31,53 @@ export function HeroCopy() {
 
   return (
     <div className="relative">
-      <motion.h1
+      <motion.p
         {...step(0)}
-        className="max-w-[15ch] text-[clamp(2.5rem,5.6vw,4.25rem)] font-semibold leading-[1.04] text-fg"
+        className="bg-gradient-to-r from-magenta-soft to-azure-soft bg-clip-text font-mono text-[0.75rem] tracking-[0.2em] text-transparent uppercase"
       >
-        Whatever Slows You Down, We{" "}
-        <span className="bg-gradient-to-r from-azure to-azure-soft bg-clip-text text-transparent">
-          Automate
+        {hero.eyebrow}
+      </motion.p>
+
+      <motion.h1
+        {...step(1)}
+        className="mt-4 text-[clamp(2.5rem,5.6vw,4.25rem)] font-semibold leading-[1.04] text-fg"
+      >
+        {hero.headline.lead}
+        <br />
+        <span className="bg-gradient-to-r from-azure to-violet bg-clip-text text-transparent">
+          {hero.headline.accent}
         </span>{" "}
-        It
+        {hero.headline.tail}
       </motion.h1>
 
       <motion.p
-        {...step(1)}
+        {...step(2)}
         className="mt-6 max-w-[48ch] text-[1.0625rem] leading-relaxed text-fg-2"
       >
         {hero.sub}
       </motion.p>
 
-      <motion.div {...step(2)} className="mt-9 flex flex-wrap items-center gap-3">
-        <Button href={cta.contactHref}>{cta.contact}</Button>
-        <Button href={cta.workHref} variant="ghost">
-          {cta.work}
+      <motion.div {...step(3)} className="mt-9 flex flex-wrap items-center gap-3">
+        <Button href={cta.exploreSolutionsHref}>{cta.exploreSolutions}</Button>
+        <Button href={cta.bookBriefingHref} variant="ghost" className="!border-line-2">
+          {cta.bookBriefing}
+          <ArrowRight size={15} aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-0.5" />
         </Button>
       </motion.div>
 
-      <motion.ul {...step(3)} className="mt-10 flex flex-wrap gap-x-6 gap-y-3">
-        {hero.badges.map((badge, i) => {
-          const Icon = badgeIcons[i];
-          return (
+      {/* <motion.div {...step(4)} className="mt-12">
+        <p className="text-[0.8125rem] text-fg-3">{hero.trustedLabel}</p>
+        <ul className="mt-4 flex flex-wrap items-center gap-x-8 gap-y-3">
+          {hero.logos.map((logo) => (
             <li
-              key={badge}
-              className="inline-flex items-center gap-2 text-[0.8125rem] text-fg-2"
+              key={logo}
+              className="text-[1.0625rem] font-bold tracking-tight text-fg-2/80 grayscale transition-[filter] duration-200 hover:grayscale-0 hover:text-fg"
             >
-              <Icon size={15} className="shrink-0 text-azure-soft" aria-hidden="true" />
-              {badge}
+              {logo}
             </li>
-          );
-        })}
-      </motion.ul>
+          ))}
+        </ul>
+      </motion.div> */}
     </div>
   );
 }
