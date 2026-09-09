@@ -49,6 +49,13 @@ export function Services() {
           <p className="mt-5 max-w-[48ch] text-[0.9375rem] leading-relaxed text-onlight-3">
             {servicesSection.body}
           </p>
+          <ul className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 divide-x divide-paper-line-2">
+            {servicesSection.stats.map((stat) => (
+              <li key={stat} className="pl-4 text-[0.8125rem] font-medium text-onlight-2 first:pl-0">
+                {stat}
+              </li>
+            ))}
+          </ul>
         </Reveal>
 
         <Reveal
