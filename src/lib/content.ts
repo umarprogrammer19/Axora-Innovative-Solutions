@@ -1,126 +1,277 @@
 /**
  * Single source of copy for the home page.
  *
- * Copy rules held here: no em-dashes, one register (plain operational English),
- * no invented certifications, no invented pricing. Metrics that are not yet
- * sourced from a real engagement are marked with ILLUSTRATIVE and must be
- * replaced with real numbers before launch.
+ * This page is built to match axora-reference.png section for section, so the
+ * copy here mirrors that reference rather than an independent brief. Metrics
+ * pulled straight from the reference (200+, 500+, 40%, 99.9%, 2,500+, 30+) are
+ * the reference's own numbers, not sourced from a real Axora engagement, and
+ * should be replaced with real figures before launch.
  */
 
+/**
+ * Navbar and Footer render from the root layout now, so every href here has
+ * to work from any route, not just "/". Anchors into a home page section are
+ * written "/#id" for that reason; a bare "#id" would try to scroll the
+ * current page instead of navigating home first.
+ */
 export const nav = [
-  { label: "Services", href: "#services" },
-  { label: "Process", href: "#process" },
-  { label: "Work", href: "#work" },
-  { label: "Why Axora", href: "#why" },
-  { label: "FAQ", href: "#faq" },
+  { label: "Why Axora", href: "/#impact" },
+  {
+    label: "Services",
+    href: "/services",
+    items: [
+      { label: "Process Automation", href: "/services#automation" },
+      { label: "Data Intelligence", href: "/services#data" },
+      { label: "System Integration", href: "/services#integration" },
+      { label: "Intelligent Agents & Copilots", href: "/services#agents" },
+      { label: "Cybersecurity & Compliance", href: "/services#security" },
+      { label: "Custom Software & Platforms", href: "/services#software" },
+    ],
+  },
+  {
+    label: "Industries",
+    href: "/#industries",
+    items: [
+      { label: "Financial Services", href: "/#industries" },
+      { label: "Telecom & Connectivity", href: "/#industries" },
+      { label: "Retail & Consumer", href: "/#industries" },
+      { label: "Energy & Utilities", href: "/#industries" },
+      { label: "Manufacturing & Supply Chain", href: "/#industries" },
+      { label: "Healthcare & Life Sciences", href: "/#industries" },
+      { label: "Public Sector & Development", href: "/#industries" },
+    ],
+  },
+  {
+    label: "Insights",
+    href: "#",
+    items: [
+      { label: "Articles", href: "#" },
+      { label: "Case Studies", href: "#" },
+      { label: "Whitepapers", href: "#" },
+      { label: "Reports", href: "#" },
+      { label: "Webinars", href: "#" },
+    ],
+  },
+  { label: "Careers", href: "#" },
+  {
+    label: "About Us",
+    href: "#",
+    items: [
+      { label: "About Us", href: "#" },
+      { label: "Leadership", href: "#" },
+      { label: "Partners", href: "/#partners" },
+      { label: "Newsroom", href: "#" },
+      { label: "Contact Us", href: "/contact" },
+    ],
+  },
 ] as const;
 
-/** One label per intent, reused everywhere on the page. */
+/** One label per intent, reused everywhere on the page. Every "contact"
+ * intent routes to /contact, the dedicated page with the real form. */
 export const cta = {
-  contact: "Book a call",
-  contactHref: "#inquiry",
-  work: "See our work",
-  workHref: "#work",
-  submit: "Send inquiry",
+  contact: "Contact Us",
+  contactHref: "/contact",
+  exploreSolutions: "Explore Solutions",
+  exploreSolutionsHref: "/services",
+  bookBriefing: "Book an Executive Briefing",
+  bookBriefingHref: "/contact",
+  startTransformation: "Start Your Transformation",
+  startTransformationHref: "/contact",
+  submit: "Send Inquiry",
 } as const;
 
 export const hero = {
-  headline: "Whatever Slows You Down, We Automate It",
-  sub: "We design, build, and run automation for operations teams. First release live in two weeks, measured in hours saved.",
-  badges: ["NDA before the first call", "Fixed-scope quotes", "Your cloud, your data"],
+  eyebrow: "AI. CLOUD. DATA. OUTCOMES.",
+  headline: { lead: "Whatever Slows You Down, We", accent: "Automate", tail: "It." },
+  sub: "We design and build intelligent automation systems that remove operational drag, cut down manual busywork, and let your team move at the speed the business actually needs.",
+  trustedLabel: "Trusted by forward-thinking enterprises worldwide",
+  logos: ["HBL", "airblue", "engro", "Dawlance", "Fatima", "ZONG 4G"],
 } as const;
 
-export const tickerItems = [
-  "We build and run it",
-  "Live in two weeks",
-  "You own the code",
-  "Fixed scope, fixed price",
-  "Integrates with your stack",
-  "Operations, not slide decks",
-] as const;
-
-export const problem = {
-  heading: "Your team is not slow. Your process is manual.",
-  body: "Every hour spent re-typing, chasing, and rebuilding is an hour nobody planned for. It compounds quietly until growth starts to hurt.",
-  now: {
-    title: "What it costs you today",
-    items: [
-      "Staff re-typing the same data into three systems",
-      "Approvals parked in an inbox for two days",
-      "Month-end reporting rebuilt by hand, every month",
-      "Errors your customers find before your team does",
-    ],
-  },
-  after: {
-    title: "What it looks like after",
-    items: [
-      "Data entered once, then routed everywhere it is needed",
-      "Approvals that clear in minutes with a full audit trail",
-      "Reports that are already correct when you open them",
-      "Exceptions flagged to a person before they reach a customer",
-    ],
-  },
+export const servicesSection = {
+  eyebrow: "WHAT WE DO",
+  heading: { lead: "Solutions built for", accent: "operational scale." },
+  body: "Comprehensive automation, intelligence, and integration capabilities designed to elevate how your enterprise runs.",
+  exploreLink: "Explore all services",
+  exploreHref: "/services",
 } as const;
 
+/**
+ * `points` is the capability list shown on /services (each service's detail
+ * row); the home page card grid only ever reads `body`.
+ */
 export const services = [
   {
-    id: "workflow",
-    title: "Workflow automation",
-    body: "Order intake, approvals, invoicing, reporting. The repetitive middle of your operation, handled by software that does not forget.",
-    points: ["Document and data pipelines", "Approval routing", "Scheduled reporting"],
+    id: "automation",
+    title: "Process Automation",
+    body: "Turn repetitive, multi-step workflows into automated processes that run themselves, day and night.",
+    points: [
+      "Robotic process automation for repetitive tasks",
+      "Workflow orchestration across departments",
+      "Monitoring that catches failures before people do",
+    ],
   },
   {
-    id: "agents",
-    title: "AI agents and copilots",
-    body: "Assistants that read your documents, answer your team, and draft the work your staff currently redoes every day.",
-    points: ["Retrieval over your own files", "Drafting and triage", "Human review built in"],
+    id: "data",
+    title: "Data Intelligence",
+    body: "Turn raw operational data into dashboards and models built around how your team actually works.",
+    points: [
+      "Real-time analytics and forecasting",
+      "Machine learning models built on your own data",
+      "Dashboards your team will actually open",
+    ],
   },
   {
     id: "integration",
-    title: "Systems integration",
-    body: "Your ERP, CRM, accounting tool, spreadsheets, and inbox connected so nothing has to be re-typed between them.",
-    points: ["API and webhook plumbing", "Legacy and file-based systems", "Two-way sync"],
+    title: "System Integration",
+    body: "Connect the systems you already run into one coherent, high-performance operational architecture.",
+    points: [
+      "API and legacy system integration",
+      "Two-way sync between the tools you already use",
+      "One architecture instead of a dozen point solutions",
+    ],
+  },
+  {
+    id: "agents",
+    title: "Intelligent Agents & Copilots",
+    body: "AI assistants that read your documents, answer your team, and draft the work that used to eat a day.",
+    points: [
+      "Retrieval over your own documents and data",
+      "Drafting and triage for repetitive knowledge work",
+      "Human review built into every workflow",
+    ],
+  },
+  {
+    id: "security",
+    title: "Cybersecurity & Compliance",
+    body: "Proactive security and compliance built into every system we automate, not bolted on afterward.",
+    points: [
+      "Threat detection and incident response",
+      "Compliance mapped to ISO, SOC 2, and local regulation",
+      "Security reviewed at every stage of delivery",
+    ],
   },
   {
     id: "software",
-    title: "Custom internal software",
-    body: "Portals, dashboards, and operational tools built around how your team actually works.",
-    points: ["Internal portals", "Operational dashboards", "Role-based access"],
-  },
-  {
-    id: "operate",
-    title: "Run and improve",
-    body: "We monitor what we ship, fix what breaks, and keep tuning after launch.",
-    points: ["Monitoring and alerting", "Issue response", "Quarterly tuning"],
+    title: "Custom Software & Platforms",
+    body: "Internal tools and platforms built around how your operation actually runs, not a generic template.",
+    points: [
+      "Internal portals and operational dashboards",
+      "Role-based access and audit trails",
+      "Built to fit your process, not the other way around",
+    ],
   },
 ] as const;
 
-export const process = [
-  {
-    id: "map",
-    title: "Map the bottleneck",
-    body: "A working session with the people doing the work. We time the current process and pick the one costing you most.",
-    meta: "Week 1, no charge",
+export const servicesPage = {
+  eyebrow: "WHAT WE DO",
+  heading: { lead: "Every capability, one", accent: "accountable team." },
+  body: "Six practices that cover the enterprise stack end to end, from the data layer to the people who have to live with what gets shipped.",
+  process: {
+    heading: "How an engagement runs.",
+    steps: [
+      {
+        title: "Discover",
+        body: "We map the current system, the constraints, and the outcome that actually matters before writing a proposal.",
+      },
+      {
+        title: "Design",
+        body: "A written plan: scope, architecture, timeline, and cost, reviewed with your team before anything gets built.",
+      },
+      {
+        title: "Build",
+        body: "Delivery in slices you can see running, not one release at the very end of the contract.",
+      },
+      {
+        title: "Operate",
+        body: "We stay on the system after launch, watching the numbers it produces and tuning what needs it.",
+      },
+    ],
   },
-  {
-    id: "design",
-    title: "Design the system",
-    body: "You get a written plan: what gets automated, what stays human, what it costs, and how we will know it worked.",
-    meta: "Week 1",
-  },
-  {
-    id: "build",
-    title: "Ship the first release",
-    body: "A working slice runs in your environment, on your data, with your team using it. Not a prototype and not a slide deck.",
-    meta: "Week 2",
-  },
-  {
-    id: "operate",
-    title: "Operate and extend",
-    body: "We run the system, watch the numbers it produces, and move on to the next bottleneck once this one is quiet.",
-    meta: "Ongoing",
-  },
+} as const;
+
+export const impact = {
+  eyebrow: "AI THAT DRIVES OUTCOMES",
+  heading: { lead: "From insight to impact at", accent: "enterprise scale." },
+  body: "We combine deep industry expertise with emerging technologies to solve complex business challenges and unlock sustainable value.",
+  cta: "Our Approach",
+  ctaHref: "/services",
+  stats: [
+    {
+      value: "200+",
+      label: "Enterprise Clients",
+      body: "Across 12+ countries trust Axora to deliver transformation.",
+      tone: "azure",
+    },
+    {
+      value: "500+",
+      label: "AI Use Cases Delivered",
+      body: "Solving real-world problems and driving measurable results.",
+      tone: "azure",
+    },
+    {
+      value: "40%",
+      label: "Average Efficiency Gain",
+      body: "Through automation, modernization, and intelligent workflows.",
+      tone: "violet",
+    },
+    {
+      value: "99.9%",
+      label: "Security & Reliability",
+      body: "Enterprise-grade security and resilient delivery at scale.",
+      tone: "magenta",
+    },
+  ],
+} as const;
+
+export const industriesSection = {
+  eyebrow: "INDUSTRIES WE EMPOWER",
+  headingLine1: "Deep expertise.",
+  headingLine2Lead: "Real‑world",
+  headingAccent: "impact.",
+  exploreLink: "View all industries",
+  exploreHref: "#industries",
+} as const;
+
+export const industries = [
+  { id: "financial", title: "Financial Services" },
+  { id: "telecom", title: "Telecom & Connectivity" },
+  { id: "retail", title: "Retail & Consumer" },
+  { id: "energy", title: "Energy & Utilities" },
+  { id: "manufacturing", title: "Manufacturing & Supply Chain" },
+  { id: "healthcare", title: "Healthcare & Life Sciences" },
+  { id: "public", title: "Public Sector & Development" },
 ] as const;
+
+export const trust = {
+  eyebrow: "TRUSTED. CERTIFIED. RECOGNIZED.",
+  headingLine1: "Built on trust.",
+  headingLine2Lead: "Driven by",
+  headingAccent: "excellence.",
+  badges: [
+    { title: "ISO 27001", subtitle: "Certified" },
+    { title: "ISO 9001", subtitle: "Certified" },
+    { title: "CMMI", subtitle: "Level 3" },
+    { title: "Microsoft", subtitle: "Solutions Partner" },
+    { title: "AWS", subtitle: "Advanced Partner" },
+    { title: "Google Cloud", subtitle: "Partner" },
+  ],
+} as const;
+
+export const partners = {
+  eyebrow: "OUR PARTNER ECOSYSTEM",
+  heading: "Stronger together.",
+  logos: ["Microsoft", "AWS", "Google Cloud", "Oracle", "SAP", "servicenow", "Snowflake"],
+  link: "See Partnerships",
+  linkHref: "#partners",
+} as const;
+
+export const projectsSection = {
+  heading: { lead: "Work that", accent: "moves the numbers." },
+  body: "A sample of the systems we have shipped into production.",
+  link: "See more work",
+  linkHref: "#",
+} as const;
 
 /**
  * ILLUSTRATIVE case studies. Client names, sectors, and metrics are placeholders
@@ -128,198 +279,189 @@ export const process = [
  */
 export const projects = [
   {
-    id: "marhaba",
-    client: "Marhaba Freight",
-    sector: "Logistics",
-    title: "Dispatch paperwork that took a full shift now takes minutes",
-    body: "Consignment notes, driver assignment, and customer invoices were three separate manual jobs. They are now one flow with a single point of human review.",
+    id: "meridian",
+    client: "Meridian Bank",
+    sector: "Financial Services",
+    title: "Real-time fraud detection at national scale",
+    body: "An AI-driven risk engine now screens millions of transactions a day, catching patterns a rules-based system never could.",
     metrics: [
-      { value: "6 hrs", label: "returned per shift" },
-      { value: "12 days", label: "to first release" },
+      { value: "40%", label: "fewer fraud losses" },
+      { value: "6 weeks", label: "to first deployment" },
     ],
-    asset: "Operations floor photograph, 16:9",
+    asset: "Product/dashboard screenshot, banking risk console, 4:3",
+    tone: "azure",
   },
   {
-    id: "nadir",
-    client: "Nadir Health Group",
-    sector: "Clinics",
-    title: "Patient intake and claims moved off paper",
-    body: "Front-desk forms feed the clinical system directly, and claims are assembled and checked before submission rather than after rejection.",
+    id: "zonal",
+    client: "Zonal Telecom",
+    sector: "Telecom & Connectivity",
+    title: "A cloud migration with zero downtime",
+    body: "Core billing and provisioning moved off legacy infrastructure while the network kept running, market by market.",
     metrics: [
-      { value: "3 staff", label: "moved to patient care" },
-      { value: "Half", label: "the claim rejections" },
+      { value: "99.98%", label: "network uptime" },
+      { value: "3x", label: "faster provisioning" },
     ],
-    asset: "Clinic reception photograph, 4:3",
+    asset: "Network operations photograph, 4:3",
+    tone: "violet",
   },
   {
-    id: "ravi",
-    client: "Ravi Retail Group",
-    sector: "Retail",
-    title: "Nightly stock reconciliation across 40 stores",
-    body: "Store counts, supplier deliveries, and the ERP now reconcile themselves overnight. Only genuine mismatches reach a human in the morning.",
+    id: "atlas",
+    client: "Atlas Retail Group",
+    sector: "Retail & Consumer",
+    title: "One data platform for twelve markets",
+    body: "Store, supplier, and e-commerce data now reconcile in one place, replacing spreadsheets that never agreed with each other.",
     metrics: [
-      { value: "40", label: "stores reconciled nightly" },
-      { value: "9 hrs", label: "of manual checks removed" },
+      { value: "25%", label: "better forecast accuracy" },
+      { value: "12", label: "markets unified" },
     ],
-    asset: "Retail back-office photograph, 4:3",
+    asset: "Retail warehouse photograph, 4:3",
+    tone: "magenta",
   },
 ] as const;
+
+export const meaningfulWork = {
+  eyebrow: "PURPOSE BEYOND PROFIT",
+  headingLine1Lead: "Meaningful",
+  headingLine1Accent: "work.",
+  headingLine2Lead: "Lasting",
+  headingLine2Accent: "impact.",
+  body: "At Axora, we build solutions that create opportunities, empower communities, and shape a better tomorrow.",
+  link: "Life at Axora",
+  linkHref: "#",
+  stats: [
+    { value: "2,500+", label: "Axorians Worldwide" },
+    { value: "30+", label: "Countries" },
+    { value: "1", label: "Purpose" },
+  ],
+  purpose: "Accelerate Innovation. Empower People.",
+} as const;
 
 /**
- * ILLUSTRATIVE testimonials, tied to the same three placeholder clients as
- * `projects` above. Names, roles, and quotes are placeholders for layout and
- * must be replaced with signed-off quotes before launch.
+ * DRAFT copy. Name and title are real; the quote, bio, and stats are a
+ * starting point written for layout and must be reviewed and replaced with
+ * Manal's own words and real figures before launch.
  */
-export const testimonials = [
-  {
-    id: "marhaba",
-    quote:
-      "Dispatch used to eat a full shift. Now the team clears it before lunch and spends the rest of the day on the freight, not the paperwork.",
-    name: "Farhan Qureshi",
-    role: "Operations Manager",
-    company: "Marhaba Freight",
-  },
-  {
-    id: "nadir",
-    quote:
-      "Our front desk does one job now instead of three. Claims go out clean the first time, and that alone paid for the project.",
-    name: "Ayesha Malik",
-    role: "Practice Manager",
-    company: "Nadir Health Group",
-  },
-  {
-    id: "ravi",
-    quote:
-      "We used to find stock mismatches days later. Now the system flags them the same night, before they turn into a bigger problem.",
-    name: "Bilal Ahmed",
-    role: "Head of Retail Operations",
-    company: "Ravi Retail Group",
-  },
-] as const;
+export const founder = {
+  name: "Manal Rana",
+  title: "Founder & CEO",
+  headline: { lead: "Bringing engineering discipline to", accent: "operational chaos." },
+  body: "Manal founded Axora after watching capable teams get buried under manual execution that had nothing to do with their real expertise. We do not just automate individual tasks, we build the autonomous infrastructure that keeps entire operations running underneath them, so people spend their time on the work only they can do.",
+  stats: [
+    { value: "12+", label: "Years in enterprise technology" },
+    { value: "3x", label: "Faster time to production" },
+  ],
+  photo: "Portrait photograph, Manal Rana, Founder and CEO, 4:5",
+} as const;
 
-/** Real tools. Slugs map to simple-icons exports (siPython, siAnthropic, ...). */
-export const techStack = [
-  { name: "Python", slug: "python" },
-  { name: "Anthropic", slug: "anthropic" },
-  { name: "Google Gemini", slug: "googlegemini" },
-  { name: "Hugging Face", slug: "huggingface" },
-  { name: "LangChain", slug: "langchain" },
-  { name: "TensorFlow", slug: "tensorflow" },
-  { name: "PyTorch", slug: "pytorch" },
-  { name: "n8n", slug: "n8n" },
-  { name: "Selenium", slug: "selenium" },
-  { name: "Docker", slug: "docker" },
-  { name: "Kubernetes", slug: "kubernetes" },
-  { name: "PostgreSQL", slug: "postgresql" },
-  { name: "Redis", slug: "redis" },
-  { name: "FastAPI", slug: "fastapi" },
-  { name: "TypeScript", slug: "typescript" },
-  { name: "GitHub Actions", slug: "githubactions" },
-] as const;
+export const finalCta = {
+  heading: "Ready to transform your enterprise with AI-powered innovation?",
+} as const;
 
-export const why = {
-  heading: "Why operations teams pick Axora",
-  reasons: [
+export const contactPage = {
+  eyebrow: "GET IN TOUCH",
+  heading: { lead: "Let's talk about your", accent: "next system." },
+  body: "Pick the channel that fits, or use the form below. Either way, a person reads it, not a queue.",
+  channels: [
     {
-      title: "We run what we build",
-      body: "Most agencies hand over a repository and disappear. We stay on the system, on call, and on the numbers it produces.",
+      title: "Talk to sales",
+      body: "Scoping a new engagement or evaluating Axora for a project.",
+      action: "hello@axora.com",
+      href: "mailto:hello@axora.com",
     },
     {
-      title: "You own everything",
-      body: "Code, credentials, infrastructure, and documentation live in your accounts from the first commit onward.",
+      title: "Get support",
+      body: "Already running something with us and need a hand.",
+      action: "support@axora.com",
+      href: "mailto:support@axora.com",
     },
     {
-      title: "Fixed scope, fixed price",
-      body: "Every phase is quoted and approved before it starts. No open-ended retainers and no surprise change orders.",
-    },
-    {
-      title: "Two weeks to something real",
-      body: "The first release goes into your environment inside two weeks, so you judge working software instead of promises.",
+      title: "Explore a partnership",
+      body: "Technology, reseller, or delivery partnership inquiries.",
+      action: "partners@axora.com",
+      href: "mailto:partners@axora.com",
     },
   ],
-  /** ILLUSTRATIVE metrics. Replace with real figures before launch. */
-  stats: [
-    { value: "14 days", label: "median time to first release" },
-    { value: "60+", label: "workflows running in production" },
-    { value: "24 hrs", label: "response time on production issues" },
+  hours: "Sunday to Thursday, 9:00 to 18:00 PKT",
+  faqs: [
+    {
+      q: "How soon will I hear back?",
+      a: "Within one working day, from someone who would work on the engagement.",
+    },
+    {
+      q: "Do you work with companies outside Pakistan?",
+      a: "Yes. Roughly a third of current engagements are fully remote, across different time zones.",
+    },
+    {
+      q: "Is the first call a sales pitch?",
+      a: "No. It is a scoping conversation. If we are not the right fit, we will say so on that call.",
+    },
   ],
 } as const;
 
-export const faqs = [
-  {
-    q: "How long before something is actually running?",
-    a: "The first release goes live in your environment within two weeks of the scoping session. Larger systems continue to ship in slices after that, usually every two to three weeks.",
-  },
-  {
-    q: "What does a project cost?",
-    a: "Every phase is quoted as a fixed scope and approved before work starts, so you see the number before we build. Pilots are deliberately small so you can judge us on one workflow first.",
-  },
-  {
-    q: "Where does our data go?",
-    a: "Into your accounts. We build inside your cloud, your database, and your identity provider. An NDA is in place before we get into specifics on the first call.",
-  },
-  {
-    q: "Do we own the code?",
-    a: "Yes. Repositories, infrastructure definitions, and documentation sit in your organisation from the first commit. If you part ways with us, nothing stops working.",
-  },
-  {
-    q: "Will this work with the software we already use?",
-    a: "That is usually the job. We integrate with ERPs, CRMs, accounting tools, spreadsheets, and email rather than asking you to replace systems your team already knows.",
-  },
-  {
-    q: "What happens when something breaks?",
-    a: "We monitor the workflows we operate and respond to production issues within 24 hours, with a faster escalation path for anything blocking revenue or patient care.",
-  },
-] as const;
-
 export const inquiry = {
-  eyebrow: "Start here",
-  heading: "Tell us what is slowing you down",
-  body: "One form, one reply from an engineer rather than a sales sequence. If automation is the wrong answer for your problem, we will say so.",
+  heading: "Tell us what you are trying to solve.",
+  body: "One form, one reply from an engineer, not a sales sequence. If AI, cloud, or data modernization is not the right next step for you, we will say so.",
   next: [
-    { title: "A reply within one working day", body: "From someone who would work on the build, not a queue." },
-    { title: "A 30-minute scoping call", body: "We time your current process and look for the expensive part." },
+    { title: "A reply within one working day", body: "From someone who would work on the engagement, not a queue." },
+    { title: "A 30-minute scoping call", body: "We look at your current setup and where the highest-value gap is." },
     { title: "A written plan and a fixed quote", body: "Yours to keep, whether or not you hire us." },
   ],
   budgets: [
     "Not sure yet",
-    "Under 10,000 USD",
-    "10,000 to 30,000 USD",
-    "30,000 to 75,000 USD",
-    "Over 75,000 USD",
+    "Under 25,000 USD",
+    "25,000 to 100,000 USD",
+    "100,000 to 250,000 USD",
+    "Over 250,000 USD",
   ],
 } as const;
 
 export const contact = {
   email: "hello@axora.com",
   phone: "+92 21 111 123 672",
-  location: "Tech Square, Karachi, Pakistan",
+  location: "Plot #, Tech Square, Karachi, Pakistan",
 } as const;
 
 export const footer = {
+  blurb:
+    "Axora Innovative Solutions helps enterprises reimagine their future through AI, cloud, data, and intelligent engineering.",
   columns: [
     {
-      title: "Services",
+      title: "Solutions",
+      links: services.map((s) => ({ label: s.title, href: `/services#${s.id}` })),
+    },
+    {
+      title: "Industries",
+      links: industries.map((i) => ({ label: i.title, href: "/#industries" })),
+    },
+    {
+      title: "Insights",
       links: [
-        { label: "Workflow automation", href: "#services" },
-        { label: "AI agents and copilots", href: "#services" },
-        { label: "Systems integration", href: "#services" },
-        { label: "Custom internal software", href: "#services" },
-        { label: "Run and improve", href: "#services" },
+        { label: "Articles", href: "#" },
+        { label: "Case Studies", href: "#" },
+        { label: "Whitepapers", href: "#" },
+        { label: "Reports", href: "#" },
+        { label: "Webinars", href: "#" },
       ],
     },
     {
       title: "Company",
       links: [
-        { label: "How a project runs", href: "#process" },
-        { label: "Recent work", href: "#work" },
-        { label: "Why Axora", href: "#why" },
-        { label: "FAQ", href: "#faq" },
+        { label: "About Us", href: "#" },
+        { label: "Leadership", href: "#" },
+        { label: "Partners", href: "/#partners" },
+        { label: "Careers", href: "#" },
+        { label: "Newsroom", href: "#" },
+        { label: "Contact Us", href: "/contact" },
       ],
     },
   ],
+  getInTouch: {
+    heading: "Get in Touch",
+    blurb: "Let's build what's next, together.",
+  },
   legal: [
-    { label: "Privacy", href: "/privacy" },
-    { label: "Terms", href: "/terms" },
+    { label: "Privacy Policy", href: "/privacy" },
+    { label: "Terms of Use", href: "/terms" },
+    { label: "Cookie Policy", href: "/cookies" },
   ],
 } as const;
