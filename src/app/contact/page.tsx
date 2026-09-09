@@ -31,9 +31,7 @@ export default function ContactPage() {
         }
         body={contactPage.body}
       />
-      <ContactChannels />
       <Inquiry showHeading={false} />
-      <ContactFaq />
     </main>
   );
 }
