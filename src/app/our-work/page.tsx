@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { PageHero } from "@/components/site/PageHero";
 import { OurWorkGrid } from "@/components/site/OurWorkGrid";
-import { Inquiry } from "@/components/site/Inquiry";
+import { OurWorkContactForm } from "@/components/site/OurWorkContactForm";
 import { ourWorkPage } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -14,7 +14,9 @@ export const metadata: Metadata = {
  * /our-work: a filterable wall of case studies, the same normal PageHero
  * band used on /services and /contact rather than a full-bleed video hero
  * (that treatment stays reserved for the home page). Bands: dark hero, dark
- * case-study wall, white inquiry form.
+ * case-study wall, dark contact form - the reference runs this whole page
+ * dark, so the form stays dark too rather than switching to Axora's usual
+ * light contact band.
  */
 export default function OurWorkPage() {
   return (
@@ -32,7 +34,7 @@ export default function OurWorkPage() {
         body={ourWorkPage.body}
       />
       <OurWorkGrid />
-      <Inquiry showInterests />
+      <OurWorkContactForm />
     </main>
   );
 }
