@@ -45,12 +45,14 @@ export async function submitInquiry(
     budget: read(formData, "budget"),
   };
 
-  // Optional: the "I'm interested in" chip picker (only rendered on /our-work).
-  // Not validated, since the form works fine with none selected.
+  // Optional: the "I'm interested in" chip picker (only rendered on /our-work)
+  // and the phone number on the /our-work sidebar's quick form. Neither is
+  // validated, since both forms work fine without them.
   const interests = formData
     .getAll("interests")
     .filter((v): v is string => typeof v === "string")
     .join(", ");
+  const phone = read(formData, "phone");
 
   const fieldErrors: Partial<Record<InquiryField, string>> = {};
 
@@ -87,7 +89,7 @@ export async function submitInquiry(
       await fetch(webhook, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...values, interests }),
+        body: JSON.stringify({ ...values, interests, phone }),
       });
     }
 
