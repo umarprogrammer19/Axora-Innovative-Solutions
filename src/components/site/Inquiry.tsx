@@ -16,7 +16,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { Button } from "@/components/ui/Button";
 import { submitInquiry } from "@/app/actions";
 import { initialInquiryState } from "@/lib/inquiry";
-import { contact, cta, inquiry, services } from "@/lib/content";
+import { contact, cta, inquiry } from "@/lib/content";
 
 /**
  * Layout family: form beside a supporting panel. Used once, on /contact.
@@ -80,16 +80,7 @@ function Field({
   );
 }
 
-export function Inquiry({
-  showHeading = true,
-  showInterests = false,
-}: {
-  showHeading?: boolean;
-  /** The "I'm interested in" chip picker. Off by default (/contact); on for
-   * /our-work, where visitors are browsing by capability and picking one is
-   * a natural extra signal rather than a required field. */
-  showInterests?: boolean;
-}) {
+export function Inquiry({ showHeading = true }: { showHeading?: boolean }) {
   const [state, formAction, isPending] = useActionState(
     submitInquiry,
     initialInquiryState,
@@ -246,29 +237,6 @@ export function Inquiry({
                         />
                       </Field>
                     </div>
-
-                    {showInterests && (
-                      <div className="sm:col-span-2">
-                        <span className="text-[0.8125rem] font-medium text-onlight-2">
-                          I&apos;m interested in
-                        </span>
-                        <div className="mt-3 flex flex-wrap gap-2">
-                          {services.map((service) => (
-                            <label key={service.id} className="cursor-pointer">
-                              <input
-                                type="checkbox"
-                                name="interests"
-                                value={service.title}
-                                className="peer sr-only"
-                              />
-                              <span className="inline-flex items-center rounded-control border border-paper-line-2 bg-paper px-3.5 py-2 text-[0.8125rem] text-onlight-2 transition-colors duration-200 peer-checked:border-azure peer-checked:bg-azure/10 peer-checked:text-azure peer-focus-visible:ring-2 peer-focus-visible:ring-azure/30">
-                                {service.title}
-                              </span>
-                            </label>
-                          ))}
-                        </div>
-                      </div>
-                    )}
                   </fieldset>
 
                   <div className="mt-8 flex flex-wrap items-center gap-4">
