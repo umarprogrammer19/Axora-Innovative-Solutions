@@ -1,13 +1,15 @@
 "use client";
 
 import { useActionState, useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
+import { motion } from "motion/react";
+import { ArrowClockwise } from "@phosphor-icons/react/ssr";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { Container } from "@/components/ui/Container";
 import { AssetSlot } from "@/components/ui/AssetSlot";
-import { Button } from "@/components/ui/Button";
-import { ourWork, services } from "@/lib/content";
+import { cta, ourWork, services } from "@/lib/content";
 import { submitInquiry } from "@/app/actions";
 import { initialInquiryState } from "@/lib/inquiry";
 
@@ -16,19 +18,21 @@ if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 type WorkItem = (typeof ourWork)[number];
 
 /**
- * Layout family: filterable case-study wall, dark band, same chunking
- * (full-width / two-up / two-up, repeating) and the same GSAP ScrollTrigger
- * entrance timeline and cursor-tilt image as xntric.ae/our-work, the
- * reference this was built from. Two deliberate departures: no per-card
- * cursor bubble, since these cards have nowhere to link yet (no per-project
- * pages exist), and the sidebar quick-form posts through the site's own
- * Google Sheets action instead of the reference's separate /api/ourform.
+ * Layout family: filterable case-study wall, dark band. Same-to-same port of
+ * xntric.ae/our-work's grid, just re-themed: the full-width/two-up/two-up
+ * chunking, the GSAP ScrollTrigger entrance timeline (title+category, then
+ * description, then the image sliding in from alternating sides so a 2-up
+ * row converges toward its centre), the per-image cursor tilt (identical
+ * formula: 15px sensitivity, a sine "zigzag" on the vertical axis), and the
+ * cursor-follow "View" bubble on hover. One adaptation: the reference links
+ * each card to its own case-study page; Axora doesn't have those yet, so
+ * cards link to /contact instead of a dead route.
  *
  * The sidebar (filters + quick form) is `position: sticky`, not pinned via
- * ScrollTrigger: for a column that unsticks at the bottom of its own
+ * ScrollTrigger - for a column that unsticks at the bottom of its own
  * container, sticky produces the same result with no extra JS. Below `lg`
- * it drops to a plain filter row above the grid; the quick form only makes
- * sense next to a sidebar that has room for it, so it's desktop-only.
+ * it drops to a plain filter row above the grid; the quick form is
+ * desktop-only, same as the reference.
  */
 
 const tones: Record<string, string> = {
@@ -46,53 +50,87 @@ function chunk<T>(items: T[], size: number): T[][] {
   return groups;
 }
 
-function WorkCard({ item, full = false }: { item: WorkItem; full?: boolean }) {
+/** Cursor-follow "View" bubble, shown only while hovering this card's image. */
+function ViewCursor({ active }: { active: boolean }) {
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    if (!active) return;
+    const move = (e: MouseEvent) => setPos({ x: e.clientX, y: e.clientY });
+    window.addEventListener("mousemove", move);
+    return () => window.removeEventListener("mousemove", move);
+  }, [active]);
+
+  if (!active) return null;
+  return (
+    <motion.div
+      className="pointer-events-none fixed z-50 grid size-20 place-items-center rounded-full bg-azure text-white shadow-lg"
+      style={{ left: pos.x, top: pos.y, translateX: "-50%", translateY: "-50%" }}
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
+      transition={{ duration: 0.15 }}
+    >
+      <span className="text-[0.8125rem] font-semibold uppercase">View</span>
+    </motion.div>
+  );
+}
+
+function WorkCard({ item, full = false, enterFrom = "right" }: { item: WorkItem; full?: boolean; enterFrom?: "left" | "right" }) {
   const root = useRef<HTMLDivElement>(null);
   const img = useRef<HTMLDivElement>(null);
   const cat = useRef<HTMLSpanElement>(null);
   const title = useRef<HTMLHeadingElement>(null);
   const body = useRef<HTMLParagraphElement>(null);
+  const [hovering, setHovering] = useState(false);
 
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const startX = enterFrom === "left" ? -60 : 60;
 
     const ctx = gsap.context(() => {
       gsap
         .timeline({
           scrollTrigger: { trigger: root.current, start: "top 88%", toggleActions: "play none none reverse" },
         })
-        .from(img.current, { opacity: 0, y: reduce ? 0 : 40, duration: 0.7, ease: "power2.out" })
-        .from([cat.current, title.current, body.current], {
-          opacity: 0,
-          y: reduce ? 0 : 20,
-          stagger: 0.08,
-          duration: 0.5,
-          ease: "power3.out",
-        }, "-=0.4");
+        .from([cat.current, title.current], { opacity: 0, y: reduce ? 0 : 20, duration: 0.6, ease: "power3.out" })
+        .from(body.current, { opacity: 0, y: reduce ? 0 : 20, duration: 0.6, ease: "power3.out" }, "-=0.4")
+        .fromTo(
+          img.current,
+          { opacity: 0, x: reduce ? 0 : startX },
+          { opacity: 1, x: 0, duration: 0.8, ease: "power2.out" },
+          "-=0.45",
+        );
 
       if (!reduce) {
         const onMove = (e: MouseEvent) => {
           const rect = img.current!.getBoundingClientRect();
+          const mouseX = e.clientX - (rect.left + rect.width / 2);
+          const mouseY = e.clientY - (rect.top + rect.height / 2);
+          const sensitivity = 15;
+          const zigzag = Math.sin(mouseY / 30) * (sensitivity / 2);
           gsap.to(img.current, {
-            x: ((e.clientX - rect.left - rect.width / 2) / rect.width) * 16,
-            y: ((e.clientY - rect.top - rect.height / 2) / rect.height) * 16,
-            duration: 0.6,
+            y: (mouseY / rect.height) * sensitivity,
+            x: (mouseX / rect.width) * (sensitivity / 3) + zigzag,
+            duration: 0.8,
             ease: "power3.out",
           });
         };
-        const onLeave = () => gsap.to(img.current, { x: 0, y: 0, duration: 0.7, ease: "power3.out" });
+        const onLeave = () => gsap.to(img.current, { x: 0, y: 0, duration: 0.9, ease: "power3.out" });
         img.current?.addEventListener("mousemove", onMove);
         img.current?.addEventListener("mouseleave", onLeave);
       }
     }, root);
 
     return () => ctx.revert();
-  }, []);
+  }, [enterFrom]);
 
   return (
-    <div ref={root} className={full ? "w-full" : "w-full md:flex-1"}>
-      <div ref={img}>
-        <AssetSlot label={item.asset} className={full ? "aspect-[16/9]" : "aspect-[4/3]"} />
+    <div ref={root} className={full ? "w-full md:w-[90%] xl:w-[80%] mx-auto" : "w-full md:flex-1"}>
+      <ViewCursor active={hovering} />
+      <div ref={img} onMouseEnter={() => setHovering(true)} onMouseLeave={() => setHovering(false)}>
+        <Link href={cta.contactHref}>
+          <AssetSlot label={item.asset} className={full ? "aspect-[16/9]" : "aspect-[4/3]"} />
+        </Link>
       </div>
       <div className="mt-4 flex flex-col items-start gap-2">
         <span ref={cat} className={`inline-flex w-fit rounded-control border px-2.5 py-1 text-[0.6875rem] font-medium tracking-wide uppercase ${tones[item.tone]}`}>
@@ -112,8 +150,8 @@ function FilterButton({ label, active, onClick, className = "" }: { label: strin
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`shrink-0 rounded-control px-4 py-2 text-[0.8125rem] tracking-wide whitespace-nowrap transition-colors duration-200 ${
-        active ? "bg-azure text-white" : "border border-line text-fg-2 hover:border-azure/50 hover:text-fg"
+      className={`shrink-0 rounded-full px-4 py-1.5 text-sm tracking-wide whitespace-nowrap transition-colors duration-200 ${
+        active ? "bg-azure text-white" : "border border-azure-soft text-azure-soft hover:bg-azure-soft/10"
       } ${className}`}
     >
       {label}
@@ -122,35 +160,60 @@ function FilterButton({ label, active, onClick, className = "" }: { label: strin
 }
 
 const fieldCls =
-  "w-full rounded-control border border-line bg-ink/40 px-3.5 py-2.5 text-[0.875rem] text-fg placeholder:text-fg-3 outline-none transition-colors duration-200 focus:border-azure";
+  "w-full rounded-[6px] border border-line bg-ink/40 px-3.5 py-2.5 text-[0.875rem] text-fg placeholder:text-fg-3 outline-none transition-colors duration-200 focus:border-azure";
+const labelCls = "text-[0.8125rem] font-medium tracking-wide text-azure-soft";
 
-/** Compact version of the /contact form, positioned in the sidebar the way
- * the reference positions its own quick-start form next to the filters.
- * Posts through the same submitInquiry action as the full form below; company
- * and budget ride along as sensible hidden defaults since this form doesn't
- * ask for them. */
+/** Sidebar quick-start form, same position AND field layout as the
+ * reference's own compact form next to its filters: labelled fields, Name
+ * and Email side by side, then Phone and Message full-width. Posts through
+ * the shared submitInquiry action; company and budget ride along as hidden
+ * defaults since this form (like the reference's) only asks for name,
+ * email, phone, and a message. */
 function QuickInquiry() {
   const [state, formAction, pending] = useActionState(submitInquiry, initialInquiryState);
 
   if (state.status === "success") {
     return (
-      <p className="rounded-panel border border-line bg-panel/60 p-5 text-center text-[0.875rem] text-azure-soft">
+      <p className="rounded-panel border border-azure-soft bg-panel/60 p-5 text-center text-[0.875rem] text-azure-soft">
         Thanks - we will reply within one working day.
       </p>
     );
   }
 
   return (
-    <form action={formAction} className="flex flex-col gap-3 rounded-panel border border-line bg-panel/60 p-5">
+    <form action={formAction} className="flex flex-col gap-4 rounded-panel border border-azure-soft bg-panel/60 p-5">
       <input type="hidden" name="company" value="Not specified" />
       <input type="hidden" name="budget" value="Not sure yet" />
-      <input name="name" required placeholder="Your name" className={fieldCls} />
-      <input name="email" type="email" required placeholder="Work email" className={fieldCls} />
-      <input name="phone" placeholder="Phone (optional)" className={fieldCls} />
-      <textarea name="bottleneck" required minLength={20} rows={3} placeholder="What are you looking to build?" className={`${fieldCls} resize-none`} />
-      <Button type="submit" disabled={pending} className="w-full justify-center">
+
+      <div className="grid grid-cols-2 gap-3">
+        <div className="flex flex-col gap-1.5">
+          <label htmlFor="qi-name" className={labelCls}>Name</label>
+          <input id="qi-name" name="name" required placeholder="Your Name" className={fieldCls} />
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <label htmlFor="qi-email" className={labelCls}>Email</label>
+          <input id="qi-email" name="email" type="email" required placeholder="Your Email" className={fieldCls} />
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-1.5">
+        <label htmlFor="qi-phone" className={labelCls}>Phone Number</label>
+        <input id="qi-phone" name="phone" placeholder="Your Phone Number" className={fieldCls} />
+      </div>
+
+      <div className="flex flex-col gap-1.5">
+        <label htmlFor="qi-message" className={labelCls}>Message</label>
+        <textarea id="qi-message" name="bottleneck" required minLength={20} rows={3} placeholder="Your Message" className={`${fieldCls} resize-none`} />
+      </div>
+
+      <button
+        type="submit"
+        disabled={pending}
+        className="group flex items-center justify-center gap-2.5 rounded-control bg-gradient-to-r from-azure to-azure-deep py-3 text-[0.9375rem] font-medium tracking-wide text-white transition-all duration-300 hover:brightness-110 disabled:opacity-60"
+      >
+        <ArrowClockwise size={16} className="transition-transform duration-500 group-hover:rotate-45" aria-hidden="true" />
         {pending ? "Sending" : "Let's start"}
-      </Button>
+      </button>
       {state.status === "error" && <p className="text-[0.75rem] text-[#ff9aa8]">{state.message}</p>}
     </form>
   );
@@ -179,7 +242,7 @@ export function OurWorkGrid() {
         </div>
 
         <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:gap-10">
-          <aside className="hidden lg:block lg:w-[22%] lg:shrink-0">
+          <aside className="hidden lg:block lg:w-1/4 lg:shrink-0">
             <div className="sticky top-[104px] flex flex-col gap-8">
               <div>
                 <p className="mb-4 font-mono text-[0.6875rem] tracking-[0.2em] text-fg-3 uppercase">Filter by category</p>
@@ -204,13 +267,13 @@ export function OurWorkGrid() {
                   <div key={i} className="flex flex-col gap-10">
                     {full && <WorkCard item={full} full />}
                     {row1.length > 0 && (
-                      <div className="flex flex-col gap-10 md:flex-row md:gap-8">
-                        {row1.map((item) => <WorkCard key={item.id} item={item} />)}
+                      <div className="flex flex-col gap-10 md:flex-row md:gap-20 xl:gap-40 2xl:gap-48">
+                        {row1.map((item, idx) => <WorkCard key={item.id} item={item} enterFrom={idx === 0 ? "left" : "right"} />)}
                       </div>
                     )}
                     {row2.length > 0 && (
-                      <div className="flex flex-col gap-10 md:flex-row md:gap-8">
-                        {row2.map((item) => <WorkCard key={item.id} item={item} />)}
+                      <div className="flex flex-col gap-10 md:flex-row md:gap-20 xl:gap-40 2xl:gap-48">
+                        {row2.map((item, idx) => <WorkCard key={item.id} item={item} enterFrom={idx === 0 ? "left" : "right"} />)}
                       </div>
                     )}
                   </div>
