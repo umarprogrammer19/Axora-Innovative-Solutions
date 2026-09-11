@@ -251,6 +251,7 @@ export const industries = [
     id: "financial",
     title: "Financial Services",
     body: "Banks, lenders, and fintechs run on manual reconciliation, compliance reporting, and fraud review that scales with headcount instead of transaction volume.",
+    asset: "Product/dashboard screenshot, fraud monitoring console, 4:3",
     points: [
       "Real-time fraud and anomaly detection across transaction streams",
       "Automated reconciliation between core banking and ledger systems",
@@ -261,6 +262,7 @@ export const industries = [
     id: "telecom",
     title: "Telecom & Connectivity",
     body: "Provisioning, network monitoring, and churn analysis still run through systems that were never built to talk to each other.",
+    asset: "Product/dashboard screenshot, network operations console, 4:3",
     points: [
       "Automated provisioning and service activation",
       "Network anomaly detection before customers notice an outage",
@@ -271,6 +273,7 @@ export const industries = [
     id: "retail",
     title: "Retail & Consumer",
     body: "Store, warehouse, and e-commerce inventory rarely agree, and demand forecasting still runs on last season's spreadsheet.",
+    asset: "Product screenshot, unified inventory dashboard, 4:3",
     points: [
       "Unified inventory across stores, warehouse, and storefront",
       "Demand forecasting built on real sell-through data",
@@ -281,6 +284,7 @@ export const industries = [
     id: "energy",
     title: "Energy & Utilities",
     body: "Asset monitoring, outage response, and field service scheduling depend on manual inspection rounds instead of live telemetry.",
+    asset: "Product/dashboard screenshot, asset monitoring console, 4:3",
     points: [
       "Predictive maintenance from live asset telemetry",
       "Automated outage detection and crew dispatch",
@@ -291,6 +295,7 @@ export const industries = [
     id: "manufacturing",
     title: "Manufacturing & Supply Chain",
     body: "Production scheduling, quality inspection, and supplier coordination still run on phone calls and spreadsheets that fall out of sync within a day.",
+    asset: "Product screenshot, production scheduling board, 4:3",
     points: [
       "Production scheduling that reacts to real-time line data",
       "Automated quality inspection and defect flagging",
@@ -301,6 +306,7 @@ export const industries = [
     id: "healthcare",
     title: "Healthcare & Life Sciences",
     body: "Clinical and administrative staff lose hours a day to insurance verification, scheduling, and documentation that adds nothing to patient care.",
+    asset: "Product screenshot, clinical scheduling interface, 4:3",
     points: [
       "Insurance verification and prior authorization automated",
       "Scheduling and no-show reduction built on patient history",
@@ -311,6 +317,7 @@ export const industries = [
     id: "public",
     title: "Public Sector & Development",
     body: "Citizen services and case management often run on paper-based workflows and legacy systems never designed for the volume they carry today.",
+    asset: "Product screenshot, citizen service case queue, 4:3",
     points: [
       "Citizen service requests triaged and routed automatically",
       "Case management systems that finally talk to each other",
