@@ -1,17 +1,15 @@
 "use client";
 
-import { useActionState, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { motion } from "motion/react";
-import { ArrowClockwise } from "@phosphor-icons/react/ssr";
+import { ArrowRight } from "@phosphor-icons/react/ssr";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { Container } from "@/components/ui/Container";
 import { AssetSlot } from "@/components/ui/AssetSlot";
 import { cta, ourWork, services } from "@/lib/content";
-import { submitInquiry } from "@/app/actions";
-import { initialInquiryState } from "@/lib/inquiry";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
@@ -28,11 +26,13 @@ type WorkItem = (typeof ourWork)[number];
  * each card to its own case-study page; Axora doesn't have those yet, so
  * cards link to /contact instead of a dead route.
  *
- * The sidebar (filters + quick form) is `position: sticky`, not pinned via
- * ScrollTrigger - for a column that unsticks at the bottom of its own
- * container, sticky produces the same result with no extra JS. Below `lg`
- * it drops to a plain filter row above the grid; the quick form is
- * desktop-only, same as the reference.
+ * The sidebar is `position: sticky`, not pinned via ScrollTrigger - for a
+ * column that unsticks at the bottom of its own container, sticky produces
+ * the same result with no extra JS. Below `lg` the filters drop to a plain
+ * wrapping row above the grid. Sidebar has no embedded form: a "Let's Start"
+ * button scrolls to the one real contact form at the bottom of the page
+ * instead of duplicating it, so there's a single form actually wired to the
+ * Google Sheet rather than two.
  */
 
 const tones: Record<string, string> = {
@@ -159,63 +159,18 @@ function FilterButton({ label, active, onClick, className = "" }: { label: strin
   );
 }
 
-const fieldCls =
-  "w-full rounded-[6px] border border-line bg-ink/40 px-3.5 py-2.5 text-[0.875rem] text-fg placeholder:text-fg-3 outline-none transition-colors duration-200 focus:border-azure";
-const labelCls = "text-[0.8125rem] font-medium tracking-wide text-azure-soft";
-
-/** Sidebar quick-start form, same position AND field layout as the
- * reference's own compact form next to its filters: labelled fields, Name
- * and Email side by side, then Phone and Message full-width. Posts through
- * the shared submitInquiry action; company and budget ride along as hidden
- * defaults since this form (like the reference's) only asks for name,
- * email, phone, and a message. */
-function QuickInquiry() {
-  const [state, formAction, pending] = useActionState(submitInquiry, initialInquiryState);
-
-  if (state.status === "success") {
-    return (
-      <p className="rounded-panel border border-azure-soft bg-panel/60 p-5 text-center text-[0.875rem] text-azure-soft">
-        Thanks - we will reply within one working day.
-      </p>
-    );
-  }
-
+/** Scrolls to the real contact form below instead of duplicating it in the
+ * sidebar - one working form beats two, and this one visibly saves to the
+ * same sheet as everywhere else on the site. */
+function StartCta() {
   return (
-    <form action={formAction} className="flex flex-col gap-4 rounded-panel border border-azure-soft bg-panel/60 p-5">
-      <input type="hidden" name="company" value="Not specified" />
-      <input type="hidden" name="budget" value="Not sure yet" />
-
-      <div className="grid grid-cols-2 gap-3">
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="qi-name" className={labelCls}>Name</label>
-          <input id="qi-name" name="name" required placeholder="Your Name" className={fieldCls} />
-        </div>
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="qi-email" className={labelCls}>Email</label>
-          <input id="qi-email" name="email" type="email" required placeholder="Your Email" className={fieldCls} />
-        </div>
-      </div>
-
-      <div className="flex flex-col gap-1.5">
-        <label htmlFor="qi-phone" className={labelCls}>Phone Number</label>
-        <input id="qi-phone" name="phone" placeholder="Your Phone Number" className={fieldCls} />
-      </div>
-
-      <div className="flex flex-col gap-1.5">
-        <label htmlFor="qi-message" className={labelCls}>Message</label>
-        <textarea id="qi-message" name="bottleneck" required minLength={20} rows={3} placeholder="Your Message" className={`${fieldCls} resize-none`} />
-      </div>
-
-      <button
-        type="submit"
-        disabled={pending}
-        className="group flex items-center justify-center gap-2.5 rounded-control bg-gradient-to-r from-azure to-azure-deep py-3 text-[0.9375rem] font-medium tracking-wide text-white transition-all duration-300 hover:brightness-110 disabled:opacity-60"
-      >
-        <ArrowClockwise size={16} className="transition-transform duration-500 group-hover:rotate-45" aria-hidden="true" />
-        {pending ? "Sending" : "Let's start"}
-      </button>
-      {state.status === "error" && <p className="text-[0.75rem] text-[#ff9aa8]">{state.message}</p>}
-    </form>
+    <Link
+      href="#our-work-form"
+      className="group flex items-center justify-center gap-2.5 rounded-control bg-gradient-to-r from-azure to-azure-deep py-3 text-[0.9375rem] font-medium tracking-wide text-white transition-all duration-300 hover:brightness-110"
+    >
+      Let&apos;s Start
+      <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
+    </Link>
   );
 }
 
@@ -243,16 +198,16 @@ export function OurWorkGrid() {
 
         <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:gap-10">
           <aside className="hidden lg:block lg:w-1/4 lg:shrink-0">
-            <div className="sticky top-[104px] flex flex-col gap-8">
+            <div className="sticky top-[104px] flex flex-col gap-6">
               <div>
                 <p className="mb-4 font-mono text-[0.6875rem] tracking-[0.2em] text-fg-3 uppercase">Filter by category</p>
-                <div className="flex flex-col items-start gap-2">
+                <div className="flex flex-wrap gap-2">
                   {filters.map((f) => (
-                    <FilterButton key={f.id} label={f.title} active={selected === f.id} onClick={() => setSelected(f.id)} className="w-full text-left" />
+                    <FilterButton key={f.id} label={f.title} active={selected === f.id} onClick={() => setSelected(f.id)} />
                   ))}
                 </div>
               </div>
-              <QuickInquiry />
+              <StartCta />
             </div>
           </aside>
 
